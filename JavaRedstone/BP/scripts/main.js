@@ -532,6 +532,10 @@ function processQC(block) {
     } catch {}
     noteStickyPowered(block);
     try { watchDoubleRetract(block); } catch {}
+    // Prefer sticky timing queue when enabled (Java-ish sticky extend delay)
+    if (cfg("stickyDelay") && block.typeId === "minecraft:sticky_piston" && typeof stickyExtend === "function") {
+      try { stickyExtend(block); return; } catch {}
+    }
     queueJavaExtend(block);
     return;
   }

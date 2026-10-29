@@ -511,7 +511,8 @@ let inputMode = player.inputInfo?.lastInputModeUsed;
 if (inputMode === "KeyboardAndMouse") {
 cache.platformType = "d";
 } else if (inputMode === "Touch") {
-cache.platformType = "m";
+const mobileOffset = player.getDynamicProperty("offset");
+cache.platformType = (mobileOffset === false) ? "d" : "m";
 }
 }
 let shieldSide = player.getDynamicProperty("shield_side");
