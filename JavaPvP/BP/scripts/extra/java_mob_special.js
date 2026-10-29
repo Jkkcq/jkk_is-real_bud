@@ -57,8 +57,8 @@ function isDay() {
 
 function isRaining(dim) {
   try {
-    const weather = dim.getWeather();
-    return weather === WeatherType.Rain || weather === WeatherType.Thunder;
+    const weather = String(dim.getWeather?.() ?? "").toLowerCase();
+    return weather.includes("rain") || weather.includes("thunder");
   } catch {
     return false;
   }
