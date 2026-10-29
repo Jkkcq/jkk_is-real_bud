@@ -12,6 +12,7 @@ const form = new ActionFormData()
 .body("Choose a category to configure:")
 .button("Combat", useServerCollectionIcons ? "textures/codegeek_icons/gold_sword" : "textures/ui/sword")
 .button("Extra Features", useServerCollectionIcons ? "textures/codegeek_icons/quick_play" : "textures/ui/debug_glyph_color")
+.button("HUD", useServerCollectionIcons ? "textures/codegeek_icons/armor" : "textures/ui/hunger_effect")
 .button("Additional Content")
 .button("Presets", useServerCollectionIcons ? "textures/codegeek_icons/leaderboards" : "textures/ui/achievements_pause_menu_icon")
 .button("Reset Config", useServerCollectionIcons ? "textures/codegeek_icons/cross" : "textures/ui/wysiwyg_reset")
@@ -20,10 +21,11 @@ form.show(player).then(response => {
 if (response.canceled) return;
 if (response.selection === 0) showCombatConfigMenu(player);
 if (response.selection === 1) showExtraConfigMenu(player);
-if (response.selection === 2) showAdditionalContentMenu(player);
-if (response.selection === 3) showPresetMenu(player);
-if (response.selection === 4) showResetConfigConfirm(player);
-if (response.selection === 5) showPackCompatibilityConfig(player);
+if (response.selection === 2) showHudConfigMenu(player);
+if (response.selection === 3) showAdditionalContentMenu(player);
+if (response.selection === 4) showPresetMenu(player);
+if (response.selection === 5) showResetConfigConfirm(player);
+if (response.selection === 6) showPackCompatibilityConfig(player);
 });
 function showPresetMenu(player) {
 const form = new ActionFormData()
@@ -589,8 +591,15 @@ if (response.canceled) {
 showHudConfigMenu(player);
 return;
 }
-world.setDynamicProperty("hud_sweep_particle", response.formValues[3]);
-world.setDynamicProperty("hud_crit_particle", response.formValues[4]);
+const values = getFormValues(response);
+if (values.length < 2) {
+player.sendMessage("§cParticle settings incomplete.");
+showHudConfigMenu(player);
+return;
+}
+world.setDynamicProperty("hud_sweep_particle", Boolean(values[0]));
+world.setDynamicProperty("hud_crit_particle", Boolean(values[1]));
+reloadConfig();
 showHudConfigMenu(player);
 });
 }
@@ -608,8 +617,15 @@ if (response.canceled) {
 showHudConfigMenu(player);
 return;
 }
-world.setDynamicProperty("hud_attack_sound", response.formValues[3]);
-world.setDynamicProperty("hud_crit_sound", response.formValues[4]);
+const values = getFormValues(response);
+if (values.length < 2) {
+player.sendMessage("§cSound settings incomplete.");
+showHudConfigMenu(player);
+return;
+}
+world.setDynamicProperty("hud_attack_sound", Boolean(values[0]));
+world.setDynamicProperty("hud_crit_sound", Boolean(values[1]));
+reloadConfig();
 showHudConfigMenu(player);
 });
 }
@@ -1253,13 +1269,20 @@ player.sendMessage("§7Configuration canceled.");
 showHudConfigMenu(player);
 return;
 }
-world.setDynamicProperty("sat_hud_server", response.formValues[2]);
-world.setDynamicProperty("armor_hud_server", response.formValues[4]);
-world.setDynamicProperty("shield_hud_server", response.formValues[6]);
-world.setDynamicProperty("cooldown_hud", response.formValues[8]);
-world.setDynamicProperty("cooldown_bar_type", ["c", "h", "d"][response.formValues[10]] ?? "d");
-world.setDynamicProperty("offhand_mode", response.formValues[12] === 1 ? "slot" : "shield");
-world.setDynamicProperty("crosshair_hit_indicator", Boolean(response.formValues[14]));
+const values = getFormValues(response);
+if (values.length < 7) {
+player.sendMessage("§cHUD settings were incomplete. Close other menus and try again.");
+showHudConfigMenu(player);
+return;
+}
+world.setDynamicProperty("sat_hud_server", Boolean(values[0]));
+world.setDynamicProperty("armor_hud_server", Boolean(values[1]));
+world.setDynamicProperty("shield_hud_server", Boolean(values[2]));
+world.setDynamicProperty("cooldown_hud", Boolean(values[3]));
+world.setDynamicProperty("cooldown_bar_type", ["c", "h", "d"][Number(values[4])] ?? "d");
+world.setDynamicProperty("offhand_mode", Number(values[5]) === 1 ? "slot" : "shield");
+world.setDynamicProperty("crosshair_hit_indicator", Boolean(values[6]));
+reloadConfig();
 showHudConfigMenu(player);
 }).catch(() => {
 player.sendMessage("§cFailed to show config form.");
@@ -1308,39 +1331,20 @@ if (response.canceled) {
 player.sendMessage("Configuration canceled.");
 return;
 }
-const formMap = [
-null,
-null,
-{ id: "sat" },
-null,
-{ id: "shield" },
-null,
-{ id: "knockback_profile" },
-null,
-null,
-null,
-{ id: "sat_hud_server" },
-null,
-{ id: "armor_hud_server" },
-null,
-{ id: "shield_hud_server" },
-null,
-{ id: "cooldown_hud" },
-null,
-];
-formMap.forEach((entry, i) => {
-if (!entry) return;
-const value = response.formValues[i];
-if (value === undefined) return;
-world.setDynamicProperty(entry.id, value);
-const prop = dynamicProperties.find(p => p.id === entry.id);
-if (prop) prop.value = value;
-});
-// Keep legacy sat/shield aliases in sync with the keys gameplay actually reads.
-const satVal = world.getDynamicProperty("sat");
-const shieldVal = world.getDynamicProperty("shield");
-if (satVal !== undefined) world.setDynamicProperty("java_saturation_enabled", Boolean(satVal));
-if (shieldVal !== undefined) world.setDynamicProperty("custom_shield_enabled", Boolean(shieldVal));
+const values = getFormValues(response);
+if (values.length < 7) {
+player.sendMessage("§cConfiguration incomplete. Close other menus and try again.");
+return;
+}
+world.setDynamicProperty("sat", Boolean(values[0]));
+world.setDynamicProperty("java_saturation_enabled", Boolean(values[0]));
+world.setDynamicProperty("shield", Boolean(values[1]));
+world.setDynamicProperty("custom_shield_enabled", Boolean(values[1]));
+world.setDynamicProperty("knockback_profile", Number(values[2]) || 0);
+world.setDynamicProperty("sat_hud_server", Boolean(values[3]));
+world.setDynamicProperty("armor_hud_server", Boolean(values[4]));
+world.setDynamicProperty("shield_hud_server", Boolean(values[5]));
+world.setDynamicProperty("cooldown_hud", Boolean(values[6]));
 reloadConfig();
 updateRules();
 player.sendMessage("Configuration saved.");

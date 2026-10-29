@@ -137,47 +137,55 @@ world.afterEvents.entityHurt.subscribe((event) => {
   });
 });
 
-world.beforeEvents.itemUse.subscribe((event) => {
-  const player = event.source;
-  if (!isPlayer(player) || creative(player)) return;
-  const id = event.itemStack?.typeId ?? "";
+try {
+  world.beforeEvents.itemUse.subscribe((event) => {
+    const player = event.source;
+    if (!isPlayer(player) || creative(player)) return;
+    const id = event.itemStack?.typeId ?? "";
 
-  if (id === "minecraft:ender_pearl" && on("java_pearl_cooldown_enabled", true)) {
-    const until = pearlCooldownUntil.get(player.id) ?? 0;
-    if (system.currentTick < until) {
-      event.cancel = true;
-      const left = Math.max(1, until - system.currentTick);
-      try {
-        player.onScreenDisplay.setActionBar(`§cPearl cooldown §f${(left / 20).toFixed(1)}s`);
-      } catch {}
-      return;
+    if (id === "minecraft:ender_pearl" && on("java_pearl_cooldown_enabled", true)) {
+      const until = pearlCooldownUntil.get(player.id) ?? 0;
+      if (system.currentTick < until) {
+        event.cancel = true;
+        const left = Math.max(1, until - system.currentTick);
+        try {
+          player.onScreenDisplay.setActionBar(`§cPearl cooldown §f${(left / 20).toFixed(1)}s`);
+        } catch {}
+        return;
+      }
     }
-  }
 
-  if ((id === "minecraft:egg" || id === "minecraft:snowball") && on("java_throwable_cooldown_enabled", true)) {
-    const until = throwCooldownUntil.get(player.id) ?? 0;
-    if (system.currentTick < until) {
-      event.cancel = true;
-      return;
+    if ((id === "minecraft:egg" || id === "minecraft:snowball") && on("java_throwable_cooldown_enabled", true)) {
+      const until = throwCooldownUntil.get(player.id) ?? 0;
+      if (system.currentTick < until) {
+        event.cancel = true;
+        return;
+      }
     }
-  }
-});
+  });
+} catch (e) {
+  console.warn("[JPVP] beforeEvents.itemUse unavailable; pearl/throwable cooldowns limited.", e);
+}
 
-world.afterEvents.itemUse.subscribe((event) => {
-  const player = event.source;
-  if (!isPlayer(player) || creative(player)) return;
-  const id = event.itemStack?.typeId ?? "";
+try {
+  world.afterEvents.itemUse.subscribe((event) => {
+    const player = event.source;
+    if (!isPlayer(player) || creative(player)) return;
+    const id = event.itemStack?.typeId ?? "";
 
-  if (id === "minecraft:ender_pearl" && on("java_pearl_cooldown_enabled", true)) {
-    const ticks = Math.max(5, Math.min(40, Math.round(num("java_pearl_cooldown_ticks", 20, 5, 40))));
-    pearlCooldownUntil.set(player.id, system.currentTick + ticks);
-  }
+    if (id === "minecraft:ender_pearl" && on("java_pearl_cooldown_enabled", true)) {
+      const ticks = Math.max(5, Math.min(40, Math.round(num("java_pearl_cooldown_ticks", 20, 5, 40))));
+      pearlCooldownUntil.set(player.id, system.currentTick + ticks);
+    }
 
-  if ((id === "minecraft:egg" || id === "minecraft:snowball") && on("java_throwable_cooldown_enabled", true)) {
-    const ticks = Math.max(1, Math.min(20, Math.round(num("java_throwable_cooldown_ticks", 4, 1, 20))));
-    throwCooldownUntil.set(player.id, system.currentTick + ticks);
-  }
-});
+    if ((id === "minecraft:egg" || id === "minecraft:snowball") && on("java_throwable_cooldown_enabled", true)) {
+      const ticks = Math.max(1, Math.min(20, Math.round(num("java_throwable_cooldown_ticks", 4, 1, 20))));
+      throwCooldownUntil.set(player.id, system.currentTick + ticks);
+    }
+  });
+} catch (e) {
+  console.warn("[JPVP] afterEvents.itemUse unavailable for throwable cooldown tracking.", e);
+}
 
 try {
   console.warn("[JPVP] Java parity module loaded (pearl CD, hit-interrupt, crit coyote, throwables)");
