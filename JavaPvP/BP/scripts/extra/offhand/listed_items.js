@@ -1,3 +1,4 @@
+import { BlockPermutation } from "@minecraft/server";
 export const ALLOWED_MAINHAND_TAG = "bf:custom_shield_usable";
 export const OFFHAND_THROWABLES = {
 "minecraft:egg": "minecraft:egg",
@@ -65,3 +66,49 @@ export const THROW_COOLDOWNS = {
 "minecraft:ender_eye": 10,
 "minecraft:firework_rocket": 8
 };
+import { BlockPermutation } from "@minecraft/server";
+const blockItemCache = new Map();
+const INTERACTABLE_PARTS = [
+"bow", "crossbow", "fishing_rod", "potion", "bucket", "flint_and_steel", "shears",
+"spyglass", "brush", "goat_horn", "shield", "trident", "ender_eye", "wind_charge",
+"firework", "experience_bottle", "snowball", "ender_pearl", "writable_book",
+"written_book", "spawn_egg", "bundle", "name_tag", "carrot_on_a_stick",
+"warped_fungus_on_a_stick", "elytra", "lead", "map", "egg"
+];
+function isFoodItem(item) {
+try {
+if (item.getComponent("minecraft:food")) return true;
+if (item.hasTag?.("minecraft:is_food")) return true;
+} catch {}
+const id = item.typeId || "";
+return /(?:apple|bread|potato|beef|chicken|stew|berry|kelp|cookie|carrot|porkchop|mutton|rabbit|salmon|cod|fish|melon|pie|beetroot|chorus|honey|rotten_flesh|spider_eye)/.test(id);
+}
+function isInteractableItem(item) {
+const id = item?.typeId || "";
+if (!id) return false;
+if (id === "minecraft:book") return true;
+return INTERACTABLE_PARTS.some((part) => id.includes(part));
+}
+function isBlockItem(item) {
+const id = item?.typeId;
+if (!id || id.includes("spawn_egg") || id.includes("bucket")) return false;
+const cached = blockItemCache.get(id);
+if (cached !== undefined) return cached;
+let placeable = false;
+try { BlockPermutation.resolve(id); placeable = true; } catch {}
+blockItemCache.set(id, placeable);
+return placeable;
+}
+function lookingAtPlaceable(player, event) {
+if (event?.kind === "block" || event?.block) return true;
+try {
+const hit = player?.getBlockFromViewDirection?.({ maxDistance: 6, includePassableBlocks: true, includeLiquidBlocks: false });
+return Boolean(hit?.block);
+} catch { return false; }
+}
+export function mainhandBlocksOffhand(player, mainhand, event) {
+if (!mainhand?.typeId) return false;
+if (isFoodItem(mainhand) || isInteractableItem(mainhand)) return true;
+if (isBlockItem(mainhand) && lookingAtPlaceable(player, event)) return true;
+return false;
+}

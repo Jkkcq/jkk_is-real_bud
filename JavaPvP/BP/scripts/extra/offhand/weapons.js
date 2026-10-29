@@ -6,7 +6,7 @@
 import { EquipmentSlot, GameMode, system } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick } from "../../engine/offhandRightClick.js";
-import { mainhandAllowsOffhandUse } from "./listed_items.js";
+import { mainhandBlocksOffhand } from "./listed_items.js";
 
 const SPEAR_DAMAGE = { wooden: 5, stone: 6, copper: 6, golden: 4, iron: 7, diamond: 8, netherite: 9 };
 const SWORD_DAMAGE = { wooden: 4, stone: 5, copper: 5, golden: 4, iron: 6, diamond: 7, netherite: 8 };
@@ -90,7 +90,7 @@ offhand = equippable?.getEquipment(EquipmentSlot.Offhand);
 mainhand = inventory?.getItem(player.selectedSlotIndex);
 } catch { return false; }
 const profile = weaponProfile(offhand?.typeId);
-if (!profile || !mainhandAllowsOffhandUse(mainhand)) return false;
+if (!profile || mainhandBlocksOffhand(player, mainhand, event)) return false;
 const now = Number.isFinite(event.inputTick) ? event.inputTick : system.currentTick;
 const last = lastUse.get(player.id) ?? -999;
 if (now - last < (profile.kind === "spear" ? 8 : 10)) return true;

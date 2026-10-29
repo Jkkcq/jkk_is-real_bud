@@ -1,6 +1,7 @@
 import { world, system, EquipmentSlot, BlockPermutation, GameMode, ItemStack } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick } from "../../engine/offhandRightClick.js";
+import { mainhandBlocksOffhand } from "./listed_items.js";
 const FACE = Object.freeze({
 Down: { x: 0, y: -1, z: 0 }, Up: { x: 0, y: 1, z: 0 },
 North: { x: 0, y: 0, z: -1 }, South: { x: 0, y: 0, z: 1 },
@@ -399,7 +400,7 @@ if (!player || cfg.offhand_enabled === false || cfg.offhand_blocks_enabled === f
 if (placing.has(player.id)) return false;
 const now = Number.isFinite(event.inputTick) ? event.inputTick : system.currentTick;
 const hands = handsOf(player);
-if (!hands?.off || isMainHandUseItem(hands.main) || placeablePermutation(hands.main)) return false;
+if (!hands?.off || mainhandBlocksOffhand(player, hands.main, event)) return false;
 const permutation = placeablePermutation(hands.off);
 if (!permutation) return false;
 if (lastHandledTick.get(player.id) === now) return true;

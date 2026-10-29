@@ -1,7 +1,7 @@
 import { world, system, EquipmentSlot, GameMode } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick, onOffhandInteractRelease } from "../../engine/offhandRightClick.js";
-import { OFFHAND_INTERACT_HOLD_ITEMS, OFFHAND_THROWABLES, THROW_COOLDOWNS, mainhandAllowsOffhandUse } from "./listed_items.js";
+import { OFFHAND_INTERACT_HOLD_ITEMS, OFFHAND_THROWABLES, THROW_COOLDOWNS, mainhandBlocksOffhand } from "./listed_items.js";
 const cooldownUntil = new Map();
 const lastHandledTick = new Map();
 const heldThrowLock = new Set();
@@ -107,7 +107,7 @@ if (!boostFirework(player, item)) return false;
 lastHandledTick.set(player.id, tick);
 return true;
 }
-if (!OFFHAND_INTERACT_HOLD_ITEMS.has(item.typeId) || !OFFHAND_THROWABLES[item.typeId] || !mainhandAllowsOffhandUse(mainhand)) return false;
+if (!OFFHAND_INTERACT_HOLD_ITEMS.has(item.typeId) || !OFFHAND_THROWABLES[item.typeId] || mainhandBlocksOffhand(player, mainhand, { kind: "use" })) return false;
 heldThrowLock.add(player.id);
 refreshHeldThrowLock(player.id);
 lastHandledTick.set(player.id, tick);
