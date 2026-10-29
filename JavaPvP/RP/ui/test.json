@@ -1,0 +1,2430 @@
+{
+  "namespace": "hud",
+  "hud_center": {
+    "type": "panel",
+    "size": [
+      "100px",
+      "100px"
+    ],
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "controls": [
+      {
+        "hud_cooldown": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.') && ((('%.12s' * $subtitle_text) - ('%.11s' * $subtitle_text)) = 'd')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.15s' * $subtitle_text) - ('%.12s' * $subtitle_text))",
+          "anchor_from": "center",
+          "anchor_to": "center",
+          "alpha": 0.5,
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 0.5,
+          "line_padding": -7,
+          "offset": [
+            "-0.5px",
+            "12px"
+          ]
+        }
+      },
+      {
+        "hud_crossahair": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.30s' * $subtitle_text) - ('%.27s' * $subtitle_text))",
+          "anchor_from": "center",
+          "anchor_to": "center",
+          "shadow": false,
+          "layer": 998,
+          "alpha": 0.5,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-0.9px",
+            "0.9px"
+          ]
+        }
+      }
+    ],
+    "$subtitle_text": "$subtitle_text"
+  },
+  "hud_top_right": {
+    "type": "panel",
+    "size": [
+      "100px",
+      "100px"
+    ],
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "controls": [
+      {
+        "hud_sat_pocket": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.27s' * $subtitle_text) - ('%.24s' * $subtitle_text))",
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-2px",
+            "64.4px"
+          ]
+        }
+      },
+      {
+        "java_sat_pocket": {
+          "layer": 999,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "('textures/ui/java_hud/saturation/level_' + (('%.255s' * $subtitle_text) - ('%.254s' * $subtitle_text)))",
+              "target_property_name": "#texture"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/saturation/level_a",
+          "offset": [
+            "-2px",
+            "64.4px"
+          ],
+          "anchor_to": "top_right",
+          "size": [
+            90,
+            9
+          ],
+          "anchor_from": "top_right",
+          "$subtitle_text": "$subtitle_text",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.' && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'p'))"
+        }
+      },
+      {
+        "java_potion_hud": {
+          "size": [
+            54,
+            106
+          ],
+          "controls": [
+            {
+              "potion_slot_0": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-2px",
+                  "2px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_0_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.110s' * $subtitle_text) - ('%.109s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_0_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.122s' * $subtitle_text) - ('%.110s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.110s' * $subtitle_text) - ('%.109s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_0_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.127s' * $subtitle_text) - ('%.122s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.110s' * $subtitle_text) - ('%.109s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_1": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-28px",
+                  "2px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_1_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.128s' * $subtitle_text) - ('%.127s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_1_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.140s' * $subtitle_text) - ('%.128s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.128s' * $subtitle_text) - ('%.127s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_1_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.145s' * $subtitle_text) - ('%.140s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.128s' * $subtitle_text) - ('%.127s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_2": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-2px",
+                  "28px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_2_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.146s' * $subtitle_text) - ('%.145s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_2_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.158s' * $subtitle_text) - ('%.146s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.146s' * $subtitle_text) - ('%.145s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_2_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.163s' * $subtitle_text) - ('%.158s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.146s' * $subtitle_text) - ('%.145s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_3": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-28px",
+                  "28px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_3_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.164s' * $subtitle_text) - ('%.163s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_3_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.176s' * $subtitle_text) - ('%.164s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.164s' * $subtitle_text) - ('%.163s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_3_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.181s' * $subtitle_text) - ('%.176s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.164s' * $subtitle_text) - ('%.163s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_4": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-2px",
+                  "54px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_4_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.182s' * $subtitle_text) - ('%.181s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_4_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.194s' * $subtitle_text) - ('%.182s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.182s' * $subtitle_text) - ('%.181s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_4_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.199s' * $subtitle_text) - ('%.194s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.182s' * $subtitle_text) - ('%.181s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_5": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-28px",
+                  "54px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_5_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.200s' * $subtitle_text) - ('%.199s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_5_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.212s' * $subtitle_text) - ('%.200s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.200s' * $subtitle_text) - ('%.199s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_5_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.217s' * $subtitle_text) - ('%.212s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.200s' * $subtitle_text) - ('%.199s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_6": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-2px",
+                  "80px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_6_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.218s' * $subtitle_text) - ('%.217s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_6_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.230s' * $subtitle_text) - ('%.218s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.218s' * $subtitle_text) - ('%.217s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_6_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.235s' * $subtitle_text) - ('%.230s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.218s' * $subtitle_text) - ('%.217s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            },
+            {
+              "potion_slot_7": {
+                "anchor_to": "top_right",
+                "offset": [
+                  "-28px",
+                  "80px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_right",
+                "controls": [
+                  {
+                    "effect_7_frame": {
+                      "anchor_to": "center",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        24,
+                        24
+                      ],
+                      "type": "image",
+                      "anchor_from": "center",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/effect_background",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.236s' * $subtitle_text) - ('%.235s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_7_icon": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/effects/' + (((('%.248s' * $subtitle_text) - ('%.236s' * $subtitle_text)) - '~~~~~~~~') - '~~~~'))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/ui/java_hud/effects/speed",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "center",
+                      "size": [
+                        18,
+                        18
+                      ],
+                      "anchor_from": "center",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.236s' * $subtitle_text) - ('%.235s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "effect_7_timer": {
+                      "layer": 3,
+                      "font_scale_factor": 0.55,
+                      "type": "label",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "(('%.253s' * $subtitle_text) - ('%.248s' * $subtitle_text))",
+                      "shadow": true,
+                      "size": [
+                        24,
+                        6
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.236s' * $subtitle_text) - ('%.235s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  24,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text"
+              }
+            }
+          ],
+          "anchor_to": "top_right",
+          "type": "panel",
+          "anchor_from": "top_right",
+          "$subtitle_text": "$subtitle_text"
+        }
+      }
+    ],
+    "$subtitle_text": "$subtitle_text"
+  },
+  "hud_top_left": {
+    "type": "panel",
+    "size": [
+      "100px",
+      "100px"
+    ],
+    "anchor_from": "top_left",
+    "anchor_to": "top_left",
+    "controls": [
+      {
+        "hud_heart_pocket": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.') && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'p')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.24s' * $subtitle_text) - ('%.21s' * $subtitle_text))",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "shadow": false,
+          "layer": 997,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "1px",
+            "64.6px"
+          ]
+        }
+      },
+      {
+        "hud_armor_java": {
+          "size": [
+            100,
+            174
+          ],
+          "controls": [
+            {
+              "armor_slot_helmet": {
+                "anchor_to": "top_left",
+                "offset": [
+                  "4px",
+                  "82px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_left",
+                "controls": [
+                  {
+                    "armor_helmet_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_helmet_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.61s' * $subtitle_text) - ('%.52s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_helmet')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_helmet",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_helmet_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_chest": {
+                "anchor_to": "top_left",
+                "offset": [
+                  "4px",
+                  "104px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_left",
+                "controls": [
+                  {
+                    "armor_chest_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_chest_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.71s' * $subtitle_text) - ('%.62s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_chestplate')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_chestplate",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_chest_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_legs": {
+                "anchor_to": "top_left",
+                "offset": [
+                  "4px",
+                  "126px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_left",
+                "controls": [
+                  {
+                    "armor_legs_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_legs_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.81s' * $subtitle_text) - ('%.72s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_leggings')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_leggings",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_legs_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_boots": {
+                "anchor_to": "top_left",
+                "offset": [
+                  "4px",
+                  "148px"
+                ],
+                "type": "panel",
+                "anchor_from": "top_left",
+                "controls": [
+                  {
+                    "armor_boots_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_boots_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.91s' * $subtitle_text) - ('%.82s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_boots')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_boots",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_boots_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+              }
+            }
+          ],
+          "anchor_to": "top_left",
+          "type": "panel",
+          "anchor_from": "top_left",
+          "$subtitle_text": "$subtitle_text",
+          "visible": "((('%.254s' * $subtitle_text) - ('%.253s' * $subtitle_text)) = 'y') && ((('%.256s' * $subtitle_text) - ('%.255s' * $subtitle_text)) = 'v')"
+        }
+      }
+    ],
+    "$subtitle_text": "$subtitle_text"
+  },
+  "hud_bottom_middle": {
+    "type": "panel",
+    "size": [
+      "100px",
+      "100px"
+    ],
+    "anchor_from": "bottom_middle",
+    "anchor_to": "bottom_middle",
+    "controls": [
+      {
+        "hud_shield_right_slot": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.r')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.18s' * $subtitle_text) - ('%.15s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 996,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "108px",
+            "-11px"
+          ]
+        }
+      },
+      {
+        "hud_shield_right_item": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.r')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.21s' * $subtitle_text) - ('%.18s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 997,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "108px",
+            "-11px"
+          ]
+        }
+      },
+      {
+        "hud_shield_right_number": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.r')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.37s' * $subtitle_text) - ('%.30s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "108px",
+            "-11px"
+          ]
+        }
+      },
+      {
+        "hud_shield_left_slot": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.l')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.18s' * $subtitle_text) - ('%.15s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 996,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-108px",
+            "-11px"
+          ]
+        }
+      },
+      {
+        "hud_shield_left_item": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.l')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.21s' * $subtitle_text) - ('%.18s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 997,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-108px",
+            "-11px"
+          ]
+        }
+      },
+      {
+        "hud_shield_left_number": {
+          "type": "label",
+          "visible": "(('%.10s' * $subtitle_text) = 'java_pvp.l')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.37s' * $subtitle_text) - ('%.30s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": true,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-106px",
+            "6px"
+          ]
+        }
+      },
+      {
+        "hud_cooldown_hotbar_left": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.') && ((('%.12s' * $subtitle_text) - ('%.11s' * $subtitle_text)) = 'h')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.15s' * $subtitle_text) - ('%.12s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "alpha": 1,
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "101px",
+            "-20px"
+          ]
+        }
+      },
+      {
+        "hud_heart_default": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.') && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'd')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.24s' * $subtitle_text) - ('%.21s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 997,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-51px",
+            "24.7px"
+          ]
+        }
+      },
+      {
+        "hud_heart_mobile": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.') && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'm')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.24s' * $subtitle_text) - ('%.21s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 997,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "-61px",
+            "24.7px"
+          ]
+        }
+      },
+      {
+        "hud_sat_default": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.27s' * $subtitle_text) - ('%.24s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "50px",
+            "24.5px"
+          ]
+        }
+      },
+      {
+        "hud_sat_mobile": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.27s' * $subtitle_text) - ('%.24s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "60px",
+            "24.4px"
+          ]
+        }
+      },
+      {
+        "hud_armor_warning": {
+          "type": "label",
+          "visible": "(('%.9s' * $subtitle_text) = 'java_pvp.')",
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.39s' * $subtitle_text) - ('%.36s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "0px",
+            "-60px"
+          ]
+        }
+      },
+      {
+        "hud_armor_helmet": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.42s' * $subtitle_text) - ('%.39s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "0px",
+            "-40.5px"
+          ]
+        }
+      },
+      {
+        "hud_armor_chest": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.45s' * $subtitle_text) - ('%.42s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "0px",
+            "-37px"
+          ]
+        }
+      },
+      {
+        "hud_armor_legs": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.48s' * $subtitle_text) - ('%.45s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "0px",
+            "-33.5px"
+          ]
+        }
+      },
+      {
+        "hud_armor_boots": {
+          "type": "label",
+          "visible": false,
+          "$subtitle_text": "$subtitle_text",
+          "text": "(('%.51s' * $subtitle_text) - ('%.48s' * $subtitle_text))",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "shadow": false,
+          "layer": 998,
+          "font_scale_factor": 1,
+          "line_padding": -7,
+          "offset": [
+            "0px",
+            "-30px"
+          ]
+        }
+      },
+      {
+        "java_offhand_frame_l": {
+          "layer": 996,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "((('%.10s' * $subtitle_text) = 'java_pvp.l') && ((('%.92s' * $subtitle_text) - ('%.91s' * $subtitle_text)) = 'y'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/hotbar_offhand_left",
+          "offset": [
+            "-105.5px",
+            "-1px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            29,
+            24
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      },
+      {
+        "java_offhand_frame_r": {
+          "layer": 996,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "((('%.10s' * $subtitle_text) = 'java_pvp.r') && ((('%.92s' * $subtitle_text) - ('%.91s' * $subtitle_text)) = 'y'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/hotbar_offhand_right",
+          "offset": [
+            "105.5px",
+            "-1px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            29,
+            24
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      },
+      {
+        "java_offhand_item_l": {
+          "layer": 997,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "((('%.10s' * $subtitle_text) = 'java_pvp.l') && ((('%.92s' * $subtitle_text) - ('%.91s' * $subtitle_text)) = 'y'))",
+              "target_property_name": "#visible"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('textures/items/' + (((('%.109s' * $subtitle_text) - ('%.92s' * $subtitle_text)) - '~~~~~~~~') - '~~~~~~~~') - '~')",
+              "target_property_name": "#texture"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/offhand_empty",
+          "offset": [
+            "-109px",
+            "-4px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            16,
+            16
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      },
+      {
+        "java_offhand_item_r": {
+          "layer": 997,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "((('%.10s' * $subtitle_text) = 'java_pvp.r') && ((('%.92s' * $subtitle_text) - ('%.91s' * $subtitle_text)) = 'y'))",
+              "target_property_name": "#visible"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('textures/items/' + (((('%.109s' * $subtitle_text) - ('%.92s' * $subtitle_text)) - '~~~~~~~~') - '~~~~~~~~') - '~')",
+              "target_property_name": "#texture"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/offhand_empty",
+          "offset": [
+            "109px",
+            "-4px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            16,
+            16
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      },
+      {
+        "java_sat_default": {
+          "layer": 999,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.9s' * $subtitle_text) = 'java_pvp.' && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'd'))",
+              "target_property_name": "#visible"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('textures/ui/java_hud/saturation/level_' + (('%.255s' * $subtitle_text) - ('%.254s' * $subtitle_text)))",
+              "target_property_name": "#texture"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/saturation/level_a",
+          "offset": [
+            "50px",
+            "24.5px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            90,
+            9
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      },
+      {
+        "java_sat_mobile": {
+          "layer": 999,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.9s' * $subtitle_text) = 'java_pvp.' && ((('%.11s' * $subtitle_text) - ('%.10s' * $subtitle_text)) = 'm'))",
+              "target_property_name": "#visible"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('textures/ui/java_hud/saturation/level_' + (('%.255s' * $subtitle_text) - ('%.254s' * $subtitle_text)))",
+              "target_property_name": "#texture"
+            }
+          ],
+          "type": "image",
+          "texture": "textures/ui/java_hud/saturation/level_a",
+          "offset": [
+            "60px",
+            "24.4px"
+          ],
+          "anchor_to": "bottom_middle",
+          "size": [
+            90,
+            9
+          ],
+          "anchor_from": "bottom_middle",
+          "$subtitle_text": "$subtitle_text"
+        }
+      }
+    ],
+    "$subtitle_text": "$subtitle_text"
+  },
+  "hud_center_factory": {
+    "type": "panel",
+    "factory": {
+      "name": "hud_title_text_factory",
+      "control_ids": {
+        "hud_title_text": "hud_center@hud.hud_center"
+      }
+    }
+  },
+  "hud_bottom_middle_factory": {
+    "type": "panel",
+    "factory": {
+      "name": "hud_title_text_factory",
+      "control_ids": {
+        "hud_title_text": "hud_bottom_middle@hud.hud_bottom_middle"
+      }
+    }
+  },
+  "hud_top_right_factory": {
+    "type": "panel",
+    "factory": {
+      "name": "hud_title_text_factory",
+      "control_ids": {
+        "hud_title_text": "hud_top_right@hud.hud_top_right"
+      }
+    }
+  },
+  "hud_top_left_factory": {
+    "type": "panel",
+    "factory": {
+      "name": "hud_title_text_factory",
+      "control_ids": {
+        "hud_title_text": "hud_top_left@hud.hud_top_left"
+      }
+    }
+  },
+  "hud_armor_bottom_left": {
+    "type": "panel",
+    "size": [
+      100,
+      100
+    ],
+    "anchor_to": "bottom_left",
+    "anchor_from": "bottom_left",
+    "$subtitle_text": "$subtitle_text",
+    "controls": [
+      {
+        "hud_armor_java_horizontal": {
+          "type": "panel",
+          "size": [
+            100,
+            100
+          ],
+          "controls": [
+            {
+              "armor_slot_helmet": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "4px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_helmet_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_helmet_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.61s' * $subtitle_text) - ('%.52s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_helmet')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_helmet",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_helmet_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_chest": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "26px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_chest_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_chest_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.71s' * $subtitle_text) - ('%.62s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_chestplate')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_chestplate",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_chest_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_legs": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "48px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_legs_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_legs_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.81s' * $subtitle_text) - ('%.72s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_leggings')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_leggings",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_legs_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_boots": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "70px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_boots_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_boots_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.91s' * $subtitle_text) - ('%.82s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_boots')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_boots",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_boots_durability": {
+                      "layer": 3,
+                      "font_scale_factor": 0.35,
+                      "type": "label", "visible": false,
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "anchor_to": "bottom_middle",
+                      "text": "",
+                      "shadow": false,
+                      "size": [
+                        20,
+                        4
+                      ],
+                      "line_padding": -7,
+                      "anchor_from": "bottom_middle",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+              }
+            }
+          ],
+          "anchor_to": "bottom_left",
+          "anchor_from": "bottom_left",
+          "$subtitle_text": "$subtitle_text",
+          "visible": "((('%.254s' * $subtitle_text) - ('%.253s' * $subtitle_text)) = 'y') && ((('%.256s' * $subtitle_text) - ('%.255s' * $subtitle_text)) = 'h')"
+        }
+      },
+      {
+        "hud_armor_java_bars": {
+          "type": "panel",
+          "size": [
+            100,
+            100
+          ],
+          "controls": [
+            {
+              "armor_slot_helmet": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "4px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_helmet_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_helmet_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.61s' * $subtitle_text) - ('%.52s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_helmet')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_helmet",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_helmet_bar": {
+                      "type": "image",
+                      "layer": 3,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/armor_bars/level_' + (('%.257s' * $subtitle_text) - ('%.256s' * $subtitle_text)))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "texture": "textures/ui/java_hud/armor_bars/level_a",
+                      "offset": [
+                        "2px",
+                        "17px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        3
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.52s' * $subtitle_text) - ('%.51s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_chest": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "26px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_chest_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_chest_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.71s' * $subtitle_text) - ('%.62s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_chestplate')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_chestplate",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_chest_bar": {
+                      "type": "image",
+                      "layer": 3,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/armor_bars/level_' + (('%.258s' * $subtitle_text) - ('%.257s' * $subtitle_text)))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "texture": "textures/ui/java_hud/armor_bars/level_a",
+                      "offset": [
+                        "2px",
+                        "17px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        3
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.62s' * $subtitle_text) - ('%.61s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_legs": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "48px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_legs_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_legs_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.81s' * $subtitle_text) - ('%.72s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_leggings')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_leggings",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_legs_bar": {
+                      "type": "image",
+                      "layer": 3,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/armor_bars/level_' + (('%.259s' * $subtitle_text) - ('%.258s' * $subtitle_text)))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "texture": "textures/ui/java_hud/armor_bars/level_a",
+                      "offset": [
+                        "2px",
+                        "17px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        3
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.72s' * $subtitle_text) - ('%.71s' * $subtitle_text)) = 'y')"
+              }
+            },
+            {
+              "armor_slot_boots": {
+                "anchor_to": "bottom_left",
+                "offset": [
+                  "70px",
+                  "-4px"
+                ],
+                "type": "panel",
+                "anchor_from": "bottom_left",
+                "controls": [
+                  {
+                    "armor_boots_frame": {
+                      "anchor_to": "top_left",
+                      "offset": [
+                        "0px",
+                        "0px"
+                      ],
+                      "size": [
+                        20,
+                        20
+                      ],
+                      "type": "image",
+                      "anchor_from": "top_left",
+                      "layer": 1,
+                      "texture": "textures/ui/java_hud/armor_slot"
+                    }
+                  },
+                  {
+                    "armor_boots_item": {
+                      "layer": 2,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/items/' + ((((('%.91s' * $subtitle_text) - ('%.82s' * $subtitle_text) - '~~~~~~~~') - '~~~~') - '~~') - '~') + '_boots')",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "type": "image",
+                      "texture": "textures/items/iron_boots",
+                      "offset": [
+                        "2px",
+                        "1px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        16
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  },
+                  {
+                    "armor_boots_bar": {
+                      "type": "image",
+                      "layer": 3,
+                      "bindings": [
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "('textures/ui/java_hud/armor_bars/level_' + (('%.260s' * $subtitle_text) - ('%.259s' * $subtitle_text)))",
+                          "target_property_name": "#texture"
+                        }
+                      ],
+                      "texture": "textures/ui/java_hud/armor_bars/level_a",
+                      "offset": [
+                        "2px",
+                        "17px"
+                      ],
+                      "anchor_to": "top_left",
+                      "size": [
+                        16,
+                        3
+                      ],
+                      "anchor_from": "top_left",
+                      "$subtitle_text": "$subtitle_text",
+                      "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+                    }
+                  }
+                ],
+                "size": [
+                  20,
+                  24
+                ],
+                "$subtitle_text": "$subtitle_text",
+                "visible": "((('%.82s' * $subtitle_text) - ('%.81s' * $subtitle_text)) = 'y')"
+              }
+            }
+          ],
+          "anchor_to": "bottom_left",
+          "anchor_from": "bottom_left",
+          "$subtitle_text": "$subtitle_text",
+          "visible": "((('%.254s' * $subtitle_text) - ('%.253s' * $subtitle_text)) = 'y') && ((('%.256s' * $subtitle_text) - ('%.255s' * $subtitle_text)) = 'b')"
+        }
+      }
+    ]
+  },
+  "hud_armor_bottom_left_factory": {
+    "type": "panel",
+    "factory": {
+      "name": "hud_title_text_factory",
+      "control_ids": {
+        "hud_title_text": "hud_armor_bottom_left@hud.hud_armor_bottom_left"
+      }
+    }
+  }
+}

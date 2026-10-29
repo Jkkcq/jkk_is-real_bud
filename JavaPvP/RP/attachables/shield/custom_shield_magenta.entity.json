@@ -1,0 +1,25 @@
+// Blurrys Java PvP Addon
+// © 2026 Blurry. All Rights Reserved.
+// Unauthorized use, redistribution, or modification is prohibited.
+// This project is licensed under the BLURRYS JAVA PVP ADDON LICENSE AGREEMENT.
+
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "bf:shield_magenta",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/entity/magenta_shield",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.shield2"
+      },
+      "render_controllers": [ "controller.render.item_default" ]
+    }
+  }
+}

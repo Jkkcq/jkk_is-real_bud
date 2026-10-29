@@ -1,0 +1,24 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "bf:shield13"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "bf:shield"
+			},
+			{
+				"item": "minecraft:banner",
+				"data": 4
+			}
+		],
+		"result": {
+			"item": "bf:shield_blue",
+			"count": 1
+		}
+	}
+}

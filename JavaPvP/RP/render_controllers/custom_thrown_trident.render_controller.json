@@ -1,0 +1,69 @@
+{
+    "format_version": "1.10.0",
+    "render_controllers": {
+        "controller.render.offhand_trident": {
+            "geometry": "Geometry.offhand",
+            "materials": [
+                {
+                    "*": "variable.is_enchanted ? Material.enchanted : Material.default"
+                }
+            ],
+            "textures": [
+                "Texture.default",
+                "Texture.enchanted"
+            ]
+        },
+        "controller.render.custom.riptide": {
+            "geometry": "Geometry.riptide",
+            "materials": [
+                {
+                    "*": "Material.default"
+                }
+            ],
+            "textures": [
+                "Texture.riptide"
+            ]
+        },
+        "controller.render.custom.thrown_trident": {
+            "geometry": "Geometry.default",
+            "materials": [
+                {
+                    "*": "Material.default"
+                }
+            ],
+            "textures": [
+                "Texture.default"
+            ],
+            "is_hurt_color": {},
+            "on_fire_color": {},
+            "filter_lighting": true
+        },
+        "controller.render.custom.thrown_trident_enchanted": {
+            "geometry": "Geometry.default",
+            "materials": [
+                { "*": "Material.enchanted" }
+            ],
+            "textures": [
+                "Texture.enchanted"
+            ],
+            "color": {
+                "r": 0.5,
+                "g": 0.0,
+                "b": 1.0,
+                "a": 1.0
+            },
+            "uv_anim": {
+                "offset": [
+                    "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * -0.02",
+                    "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * 0.03"
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "light_color_multiplier": 0.2,
+            "ignore_lighting": false
+        }
+    }
+}

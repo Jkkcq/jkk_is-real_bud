@@ -1,0 +1,49 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.custom.trident.wield_offhand": {
+			"initial_state": "first_person",
+			"states": {
+				"first_person": {
+					"animations": ["wield_first_person_offhand", "controller_wield_first_person_offhand"],
+					"transitions": [
+						{"third_person": "!c.is_first_person"}
+					]
+				},
+				"third_person": {
+					"animations": [
+						"wield_third_person_offhand",
+						{"wield_third_person_raise_offhand": "v.rp_trident_1 || query.has_target"}
+					],
+					"transitions": [
+						{"first_person": "c.is_first_person"}
+					]
+				}
+			}
+		},
+		"controller.animation.custom.trident.first_person_wield_offhand": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{"using": "v.rp_trident_1 > 0.0"},
+						{"riptide": "v.rp_trident_2 > 0.0"}
+					]
+				},
+				"using": {
+					"animations": ["wield_first_person_raise_offhand", "wield_first_person_raise_shake_offhand"],
+					"transitions": [
+						{"default": "v.rp_trident_1 == 0.0"},
+						{"riptide": "v.rp_trident_2 > 0.0"}
+					]
+				},
+				"riptide": {
+					"animations": ["wield_first_person_riptide_offhand"],
+					"transitions": [
+						{"default": "v.rp_trident_2 == 0.0"}
+					]
+				}
+			}
+		}
+	}
+}

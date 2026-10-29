@@ -1,0 +1,660 @@
+{
+  "namespace": "pyrows",
+  "status_feed": {
+    "type": "panel",
+    "size": [
+      0,
+      0
+    ],
+    "property_bag": {
+      "#held_text": ""
+    },
+    "bindings": [
+      {
+        "binding_name": "#hud_title_text_string"
+      },
+      {
+        "binding_name": "#hud_title_text_string",
+        "binding_name_override": "#held_text",
+        "binding_condition": "visibility_changed"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not (#hud_title_text_string = #held_text) and not ((#hud_title_text_string - 'PYROWS') = #hud_title_text_string))",
+        "target_property_name": "#visible"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.7s' * #held_text - ('%.6s' * #held_text)) - '0')",
+        "target_property_name": "#feet_present"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.9s' * #held_text - ('%.7s' * #held_text)) - '0')",
+        "target_property_name": "#feet_material"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.14s' * #held_text - ('%.9s' * #held_text)) - '0')",
+        "target_property_name": "#feet_cur"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.19s' * #held_text - ('%.14s' * #held_text)) - '0')",
+        "target_property_name": "#feet_max"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.20s' * #held_text - ('%.19s' * #held_text)) - '0')",
+        "target_property_name": "#legs_present"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.22s' * #held_text - ('%.20s' * #held_text)) - '0')",
+        "target_property_name": "#legs_material"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.27s' * #held_text - ('%.22s' * #held_text)) - '0')",
+        "target_property_name": "#legs_cur"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.32s' * #held_text - ('%.27s' * #held_text)) - '0')",
+        "target_property_name": "#legs_max"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.33s' * #held_text - ('%.32s' * #held_text)) - '0')",
+        "target_property_name": "#chest_present"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.35s' * #held_text - ('%.33s' * #held_text)) - '0')",
+        "target_property_name": "#chest_material"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.40s' * #held_text - ('%.35s' * #held_text)) - '0')",
+        "target_property_name": "#chest_cur"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.45s' * #held_text - ('%.40s' * #held_text)) - '0')",
+        "target_property_name": "#chest_max"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.46s' * #held_text - ('%.45s' * #held_text)) - '0')",
+        "target_property_name": "#head_present"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.48s' * #held_text - ('%.46s' * #held_text)) - '0')",
+        "target_property_name": "#head_material"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.53s' * #held_text - ('%.48s' * #held_text)) - '0')",
+        "target_property_name": "#head_cur"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.58s' * #held_text - ('%.53s' * #held_text)) - '0')",
+        "target_property_name": "#head_max"
+      }
+    ]
+  },
+  "gear_slot": {
+    "type": "panel",
+    "size": [
+      20,
+      22
+    ],
+    "$present_field|default": "#none",
+    "$material_field|default": "#none",
+    "$cur_field|default": "#none",
+    "$max_field|default": "#none",
+    "$frame_art|default": "textures/ui/pyrows/head_slot",
+    "$frame_art_empty|default": "textures/ui/pyrows/head_slot_empty",
+    "$badge_art|default": "textures/items/pyrows/helmet_badge",
+    "$mat_chainmail|default": "textures/items/pyrows/helmet_badge",
+    "$mat_iron|default": "textures/items/pyrows/helmet_badge",
+    "$mat_golden|default": "textures/items/pyrows/helmet_badge",
+    "$mat_diamond|default": "textures/items/pyrows/helmet_badge",
+    "$mat_netherite|default": "textures/items/pyrows/helmet_badge",
+    "$mat_pumpkin|default": "textures/items/pyrows/helmet_badge",
+    "$mat_turtle|default": "textures/items/pyrows/helmet_badge",
+    "$mat_skeleton|default": "textures/items/pyrows/helmet_badge",
+    "$mat_wither_skeleton|default": "textures/items/pyrows/helmet_badge",
+    "$mat_zombie|default": "textures/items/pyrows/helmet_badge",
+    "$mat_creeper|default": "textures/items/pyrows/helmet_badge",
+    "$mat_player|default": "textures/items/pyrows/helmet_badge",
+    "$mat_copper|default": "textures/items/pyrows/helmet_badge",
+    "controls": [
+      {
+        "pyrows_feed@pyrows.status_feed": {}
+      },
+      {
+        "frame": {
+          "type": "image",
+          "texture": "$frame_art",
+          "size": [
+            20,
+            22
+          ]
+        }
+      },
+      {
+        "badge": {
+          "type": "image",
+          "texture": "$badge_art",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 0)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_chainmail": {
+          "type": "image",
+          "texture": "$mat_chainmail",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 1)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_iron": {
+          "type": "image",
+          "texture": "$mat_iron",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 2)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_golden": {
+          "type": "image",
+          "texture": "$mat_golden",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 3)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_diamond": {
+          "type": "image",
+          "texture": "$mat_diamond",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 4)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_netherite": {
+          "type": "image",
+          "texture": "$mat_netherite",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 5)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_pumpkin": {
+          "type": "image",
+          "texture": "$mat_pumpkin",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 6)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_turtle": {
+          "type": "image",
+          "texture": "$mat_turtle",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 7)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_skeleton": {
+          "type": "image",
+          "texture": "$mat_skeleton",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 8)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_wither_skeleton": {
+          "type": "image",
+          "texture": "$mat_wither_skeleton",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 9)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_zombie": {
+          "type": "image",
+          "texture": "$mat_zombie",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 10)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_creeper": {
+          "type": "image",
+          "texture": "$mat_creeper",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 11)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_player": {
+          "type": "image",
+          "texture": "$mat_player",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 12)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_copper": {
+          "type": "image",
+          "texture": "$mat_copper",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1 and $material_field = 13)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "badge_empty": {
+          "type": "image",
+          "texture": "$frame_art_empty",
+          "size": [
+            16,
+            16
+          ],
+          "offset": [
+            0,
+            -2
+          ],
+          "alpha": 0.5,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 0)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "wear_percent_label": {
+          "type": "label",
+          "text": "",
+          "visible": false,
+          "layer": 12,
+          "offset": [
+            0,
+            -9
+          ],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadow": true,
+          "localize": false,
+          "text_alignment": "center",
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "$cur_field",
+              "target_property_name": "#wear_cur"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "$max_field",
+              "target_property_name": "#wear_max"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('\u00a7z' + (#wear_cur * 100 / #wear_max) + '%')",
+              "target_property_name": "#wear_pct_text"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "($present_field = 1)",
+              "target_property_name": "#wear_present"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#wear_present and not (#wear_max = 0) and ((#wear_cur * 100 / #wear_max) < 100))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "font_scale_factor": 0.55,
+          "visible": false
+        }
+      },
+      {
+        "wear_warning_dot": {
+          "type": "image",
+          "texture": "textures/ui/pyrows/wear_warning",
+          "size": [
+            7,
+            7
+          ],
+          "offset": [
+            7,
+            -8
+          ],
+          "layer": 11,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "$cur_field",
+              "target_property_name": "#warn_cur"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "pyrows_feed",
+              "source_property_name": "$max_field",
+              "target_property_name": "#warn_max"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not (#warn_max = 0) and ((#warn_cur * 100 / #warn_max) < 20))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "gear_row": {
+    "type": "stack_panel",
+    "orientation": "horizontal",
+    "size": [
+      "100%c",
+      "100%cm"
+    ],
+    "anchor_from": "bottom_middle",
+    "anchor_to": "bottom_middle",
+    "offset": [
+      -161,
+      -1
+    ],
+    "controls": [
+      {
+        "slot_head@pyrows.gear_slot": {
+          "$present_field": "#head_present",
+          "$material_field": "#head_material",
+          "$cur_field": "#head_cur",
+          "$max_field": "#head_max",
+          "$frame_art": "textures/ui/pyrows/head_slot",
+          "$frame_art_empty": "textures/ui/pyrows/head_slot_empty",
+          "$badge_art": "textures/items/pyrows/helmet_badge",
+          "$mat_chainmail": "textures/items/pyrows/materials/chainmail_helmet",
+          "$mat_iron": "textures/items/pyrows/materials/iron_helmet",
+          "$mat_golden": "textures/items/pyrows/materials/golden_helmet",
+          "$mat_diamond": "textures/items/pyrows/materials/diamond_helmet",
+          "$mat_netherite": "textures/items/pyrows/materials/netherite_helmet",
+          "$mat_pumpkin": "textures/items/pyrows/materials/head_pumpkin",
+          "$mat_turtle": "textures/items/pyrows/materials/head_turtle",
+          "$mat_skeleton": "textures/items/pyrows/materials/head_skeleton",
+          "$mat_wither_skeleton": "textures/items/pyrows/materials/head_wither_skeleton",
+          "$mat_zombie": "textures/items/pyrows/materials/head_zombie",
+          "$mat_creeper": "textures/items/pyrows/materials/head_creeper",
+          "$mat_player": "textures/items/pyrows/materials/head_player",
+          "$mat_copper": "textures/items/pyrows/materials/copper_helmet"
+        }
+      },
+      {
+        "slot_chest@pyrows.gear_slot": {
+          "$present_field": "#chest_present",
+          "$material_field": "#chest_material",
+          "$cur_field": "#chest_cur",
+          "$max_field": "#chest_max",
+          "$frame_art": "textures/ui/pyrows/chest_slot",
+          "$frame_art_empty": "textures/ui/pyrows/chest_slot_empty",
+          "$badge_art": "textures/items/pyrows/chestplate_badge",
+          "$mat_chainmail": "textures/items/pyrows/materials/chainmail_chestplate",
+          "$mat_iron": "textures/items/pyrows/materials/iron_chestplate",
+          "$mat_golden": "textures/items/pyrows/materials/golden_chestplate",
+          "$mat_diamond": "textures/items/pyrows/materials/diamond_chestplate",
+          "$mat_netherite": "textures/items/pyrows/materials/netherite_chestplate",
+          "$mat_copper": "textures/items/pyrows/materials/copper_chestplate"
+        }
+      },
+      {
+        "slot_legs@pyrows.gear_slot": {
+          "$present_field": "#legs_present",
+          "$material_field": "#legs_material",
+          "$cur_field": "#legs_cur",
+          "$max_field": "#legs_max",
+          "$frame_art": "textures/ui/pyrows/legs_slot",
+          "$frame_art_empty": "textures/ui/pyrows/legs_slot_empty",
+          "$badge_art": "textures/items/pyrows/leggings_badge",
+          "$mat_chainmail": "textures/items/pyrows/materials/chainmail_leggings",
+          "$mat_iron": "textures/items/pyrows/materials/iron_leggings",
+          "$mat_golden": "textures/items/pyrows/materials/golden_leggings",
+          "$mat_diamond": "textures/items/pyrows/materials/diamond_leggings",
+          "$mat_netherite": "textures/items/pyrows/materials/netherite_leggings",
+          "$mat_copper": "textures/items/pyrows/materials/copper_leggings"
+        }
+      },
+      {
+        "slot_feet@pyrows.gear_slot": {
+          "$present_field": "#feet_present",
+          "$material_field": "#feet_material",
+          "$cur_field": "#feet_cur",
+          "$max_field": "#feet_max",
+          "$frame_art": "textures/ui/pyrows/feet_slot",
+          "$frame_art_empty": "textures/ui/pyrows/feet_slot_empty",
+          "$badge_art": "textures/items/pyrows/boots_badge",
+          "$mat_chainmail": "textures/items/pyrows/materials/chainmail_boots",
+          "$mat_iron": "textures/items/pyrows/materials/iron_boots",
+          "$mat_golden": "textures/items/pyrows/materials/golden_boots",
+          "$mat_diamond": "textures/items/pyrows/materials/diamond_boots",
+          "$mat_netherite": "textures/items/pyrows/materials/netherite_boots",
+          "$mat_copper": "textures/items/pyrows/materials/copper_boots"
+        }
+      }
+    ]
+  }
+}

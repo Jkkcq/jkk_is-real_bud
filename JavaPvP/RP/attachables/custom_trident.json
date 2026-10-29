@@ -1,0 +1,67 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "bf:trident",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/entity/trident",
+        "enchanted": "textures/misc/enchanted_item_glint",
+        "riptide": "textures/entity/trident_riptide"
+      },
+      "geometry": {
+        "default": "geometry.custom.trident",
+        "offhand": "geometry.custom.trident_offhand",
+        "riptide": "geometry.custom.riptide"
+      },
+      "animations": {
+        "wield": "controller.animation.custom.trident.wield",
+        "controller_wield_first_person": "controller.animation.custom.trident.first_person_wield",
+        "wield_first_person": "animation.custom.trident.wield_first_person",
+        "wield_first_person_raise": "animation.custom.trident.wield_first_person_raise",
+        "wield_first_person_raise_shake": "animation.custom.trident.wield_first_person_raise_shake",
+        "wield_first_person_riptide": "animation.custom.trident.wield_first_person_riptide",
+        "wield_third_person": "animation.custom.trident.wield_third_person",
+        "wield_third_person_raise": "animation.custom.trident.wield_third_person_raise",
+        
+        "wield_offhand": "controller.animation.custom.trident.wield_offhand",
+        "controller_wield_first_person_offhand": "controller.animation.custom.trident.first_person_wield_offhand",
+        "wield_first_person_offhand_using": "animation.custom.trident.wield_first_person_offhand_using",
+        "wield_first_person_offhand": "animation.custom.trident.wield_first_person_offhand",
+        "wield_first_person_raise_offhand": "animation.custom.trident.wield_first_person_raise_offhand",
+        "wield_first_person_raise_shake_offhand": "animation.custom.trident.wield_first_person_raise_shake_offhand",
+        "wield_first_person_riptide_offhand": "animation.custom.trident.wield_first_person_riptide_offhand",
+        "wield_third_person_offhand": "animation.custom.trident.wield_third_person_offhand",
+        "wield_third_person_raise_offhand": "animation.custom.trident.wield_third_person_raise_offhand"
+      },
+      "scripts": {
+        "parent_setup": "t.bp_trident_1 = v.bp_trident_1 ?? 0.0; t.bp_trident_2 = v.bp_trident_2 ?? 0.0; t.bp_trident_3 =  v.bp_trident_3 ?? 0.0;",
+        "initialize": [
+          "v.rp_trident_1 = 0.0;",
+          "v.rp_trident_2 = 1.0;",
+          "v.rp_trident_3 = 2.0;"
+        ],
+        "pre_animation": [
+          "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);",
+          "v.rp_trident_1 = t.bp_trident_1 ?? 0.0;",
+          "v.rp_trident_2 = t.bp_trident_2 ?? 0.0;",
+          "v.rp_trident_3 = t.bp_trident_3 ?? 0.0;",
+          "v.in_mainhand = query.get_equipped_item_name(0, 1) == 'trident';",
+          "v.in_offhand = query.get_equipped_item_name('off_hand') == 'trident';"
+        ],
+        "animate": [
+          {"wield": "v.in_mainhand"},
+          {"wield_offhand": "v.in_offhand"}
+        ]
+      },
+      "render_controllers": [
+        {"controller.render.item_default": "v.in_mainhand"},
+        {"controller.render.offhand_trident": "v.in_offhand"},
+        {"controller.render.custom.riptide": "!c.is_first_person && v.rp_trident_3 > 0.0"}
+      ]
+    }
+  }
+}

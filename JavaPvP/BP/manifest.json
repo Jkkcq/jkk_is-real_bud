@@ -1,0 +1,58 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Another java addon 10.3.40",
+    "description": "Saturation shower added. PERSONAL USE ONLY.",
+    "uuid": "7bc3e51f-5b17-4d43-80f0-bab5915c5d98",
+    "version": [
+      10,
+      3,
+      41
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      50
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "284fc646-5145-4b08-b0a6-ea05979018f7",
+      "version": [
+        10,
+        3,
+        41
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "825fdd6a-69c4-407c-8685-f458777cf03a",
+      "version": [
+        10,
+        3,
+        41
+      ],
+      "entry": "scripts/index.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.10.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.2.0"
+    },
+    {
+      "uuid": "9037d748-1344-44f0-b9a4-20bb4b2a5d77",
+      "version": [
+        10,
+        3,
+        41
+      ]
+    }
+  ]
+}

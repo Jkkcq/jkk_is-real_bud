@@ -1,0 +1,24 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "bf:shield5"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "bf:shield"
+			},
+			{
+				"item": "minecraft:banner",
+				"data": 3
+			}
+		],
+		"result": {
+			"item": "bf:shield_brown",
+			"count": 1
+		}
+	}
+}

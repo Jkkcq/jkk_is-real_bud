@@ -1,0 +1,68 @@
+============================
+Credits List
+============================
+
+Java Aspects was made by AgentMindStorm:
+
+YouTube: @AgentMS
+Bluesky: @agentms.bsky.social
+Discord: agentms
+
+This pack uses a few assets from version 6.4.6 of the PC GUI Pack. These include some splashes, some sounds, and the hover tooltip border.
+PC GUI was made by Cris (@CrisXolt on Twitter/X), Sprintermax (@Sprintermax on Twitter/X), HawfHuman (@HawfHuman on Twitter/X), and SirZeus.
+
+This pack also uses assets from version 1.15 of the Fixed Vanilla resource pack. These are the Detached System, first-person hand animations, all attachable animations, snowy grass side texture, blackstone stair and slab textures, purple glazed terracotta texture, activated observer back texture, spyglass texture, classic clouds, 3D thrown items, bobbing animation, swimming animation, crawling animation, sneaking animation, elytra position, panda sneezing animation, baby zombie leg animation, piglin celebrating animation, hoglin and zoglin attack animation, baby hoglin and zoglin walking animation, wolf tail animation, flopping tropical fish animation, cat and ocelot models and animations, parrot model and animations, squid model, shulker size, strider textures and model, villager models, zombie villager models, hoglin and zoglin models, piglin clothing and tusk size, horse textures, donkey texture, mule texture, parrot textures, camel texture, warm frog texture, pillager and vindicator textures, invisible phantom texture, potion particles, item frame breaking particles, bubble column splashing particles, normal and sticky pistons, bee nest and hive placing sounds, slowness effect icon, dirt UI background texture, sign UI textures, spectator player transparency, and command helper previews.
+Fixed Vanilla was made by LateLag (@LateLagMC on Twitter/X).
+
+This pack also uses assets from version 1.0.0 of the Java Edition Particles resource pack and version 1.21 of the MultiPixel resource pack. These are the player.entity.json editing method, loading bars, transparent water texture, grass block side transition colors, grass and fern textures, action bar bed messages, glow squid and blaze lighting, hurt and burning entity overlay values, semitransparent experience orbs, separated llama decor, separated pig saddles, semitransparent shulker bullets, wolves darkening when wet, zombie villager robe sizing, enderman shaking animation, zombie chasing and attacking animations, creeper exploding animation, cape animation, Wither armor size, dripping particles, flame particles, smoke particles, critical hit particles, glow squid particles, sculk sensor particles, sculk shrieker particles, totem of undying particles, eating particles, breaking particles, note block particles, splashing particles, ominous item spawning particles, and other miscellaneous particle changes.
+The optional ZIP file "java_armless_armor_stands.zip" is also from the pack.
+Java Edition Particles and MultiPixel were made by Rainvay_ZCYF (@ZouChenyunfei on Twitter/X).
+
+This pack also uses assets from version 2.5.0 of Lukas' Java Parity Pack. These are the hurt and burning entity overlay methods, highlightable locked trades, selected item count position, item inventory icons, item durability bars, coordinate text and background color, item description colors, the removal of the flying item renderer, the removal of chat censoring, the removal of chat block previews, the removal of HUD item description text, and the removal of category text.
+Lukas' Java Parity Pack was made by Lukas (@LukasPAH on Twitter/X).
+
+Pack Contributors:
+
+Dharen - Explosion particles, animation speeds for lava and magma, tall grass, trident riptide wind, bell placing sound, and lantern animation
+Netongas NG (@netongas_ng on Twitter/X) - Acacia, birch, jungle, and dark oak door textures, skeleton idle animation, piglin model, piglin ear animation, zombie villager helmets, damage indicator particles, raiders remaining name, save and load capitalization, thrown ender pearl, egg, and bottle o' enchanting names, Mexican Spanish (es_MX) translations, equip turtle shell sound, painting sounds, rabbit sounds, squid sounds, zombie sounds, lily pad sounds, and other miscellaneus sound changes
+Wild (@wildthegamer_ on Twitter/X) - White rabbit and original code design for a custom tab
+Henry Markle - Obsolete features
+Angel Wanderley Gonzalez López Quintero - Water textures
+Cris (@CrisXolt on Twitter/X) - Boss bars, jukebox text, tall grass, and help with TGA textures
+Ramon sanchez - Obsolete features
+Eroded Potato (@ErodedPotato on Twitter/X) - Vertical held item position, first-person bow position, light source shading, item breaking sound, item throwing sound, and carried grass block color
+LateLag (@LateLagMC on Twitter/X) - Cactus side texture and particle rotation
+Cjnator38 (@cjnator38 on Twitter/X) - Explosion sounds
+NGFuji.mp4 (ngfuji.mp4 on Discord) - Ravager model, phantom model, witch model, cow model, pig model, phantom eyes, and drinking witch nose position
+DerpyPlayz18 (@CeruleanDerpo@wetdry.world on the Fediverse) - Obsolete features
+TrèsAbhi (@TresAbhi_ on Twitter/X) - Pack icon
+KalmeMarq (@KalmeMarq on Twitter/X) - Obsolete features
+Kleaps (@Kleaps on YouTube) - Chest particle method
+ambient (ambiennt on Discord) - Obsolete features
+EmptyCoso (@EmptyCoso on Twitter/X) - Italian (it_IT) translations, chalkboard name, iron golem wobbling animation, goat head animation, and default hurt overlay
+Zarkmend ZAN (@Zarkmend_ZAN on Twitter/X) - Obsolete features
+SharedLoss (sharedloss on Discord) - End crystal animation
+patred (@patredenglish on Twitter/X) - Java Aspects title texture
+cozi (@coztellation@moth.zone on the Fediverse) - Unicode font replacement ZIP file
+Kryzor (kryzorrr on Discord) - Smooth elytra transitions, smooth chicken animations, husk size, wolf head tilt animation, enderman model and animations, specific premium skin animations, critical hit particles, knockback sounds, item icon shading, and various distant block textures
+LionHead07 (lionhead07 on Discord) - HUD screen layering, preventing chat closing on hurt, first-person one-handed map attack animation, first-person two-handed map item swap animation, spear model, horse, donkey, and mule galloping animation, polar bear attack animation, turtle size and animations, tadpole model and swimming animation, dolphin swimming animation, camel head bobbing animation, creeper exploding while on fire overlay, smooth ender dragon perching, warden animations, iron golem animation polish, ravager model, ravager stunned animation, pillager size and bobbing animation, vindicator empty hand animation, evoker robe length, evoker fang model and animation, witch nose bobbing, smooth piglin celebrating animation, creaking animations, blaze and magma cube entity shading, rabbit model, sniffer model, chicken models, semitransparent vex and allay torsos, jumping animation, sprint-jumping animation, various walking animations, smooth animations for slime, magma cube, panda, rabbit, fox, squid, glow squid, and parrot, creeper leg inflation, glowing projectiles, experience orb colors, first-person hand hurt and fire colors, cave grass colors, baby mob step pitch, baby zombie villager pitch, in-game boat sounds, evoker fang summoning sounds, slime and magma cube attack sounds, iron golem sound pitch variance, iron golem walking particles, armor stand model rotation, more lead rope notches, smaller snowflakes, enchantment attack particles, mace smash particles, creaking crumble particles, dolphin swim particles, eye of ender particles, Nether portal particle lighting, fishing particles, llama spit particles, villager angry particles, underwater bubble particle removal, damage indicator particle color and size, decorated pot top and bottom textures, improved torch models, and dripleaf held item poses
+oakvolf (@oakvolf on Twitter/X) - Paper doll cape animation
+Alfombra de Madera (alfombracitarioj on Discord) - Alfombra's MinecraftTool, which was used to generate the classic-style spawn egg textures
+Incyada (@incyada on Twitter/X) - Slim skin arm and item pose adjustments
+AlexCreeper25 - Java Aspects name suggestion
+
+============================
+Credits Policy
+============================
+
+By contributing a feature to AgentMindStorm, you agree to the following terms:
+
+The name of the contributor and their preferred social media account will be added to the Credits document, along with the features they contributed.
+
+If one of these contributed features is later removed from the pack, the contributor's credit will remain in the Credits List, but the feature will be removed from their line. If all features from a single contributor have been removed from the pack, the list of features they contributed will say "Obsolete features".
+
+Features contributed after July 17, 2023 cannot be removed by request of the contributor. This is to prevent extra work required to remove and redo features when a contributor asks to remove them.
+
+Once a feature has been contributed to AgentMindStorm, or a creator has an agreement to share assets with him, he gains full modification and distribution rights over these features, including all assets (except those which may be owned by Mojang Studios, such as textures) and the right to monetize the features. He may reuse the same features in other resource packs (e.g. A feature contributed for Java Aspects may be used in Console Aspects as well.) He guarantees proper credit until the end of time for contributed features, which will be listed explicitly in the Credits document.
+
+If you wish to use a feature from this pack in your own resource pack, please contact AgentMindStorm on Bluesky (@agentms.bsky.social) or Discord (agentms). AgentMindStorm will not permit you to take features which were contributed from someone else, but he may allow you to use any number of assets from features he created. You must have permission in writing directly from AgentMindStorm; this policy does NOT give permission to reuse assets on its own. For features AgentMindStorm received from a contributor, please contact the contributor directly for permission.

@@ -1,0 +1,15 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:recipe_smithing_transform": {
+		"description": {
+			"identifier": "bf:smithing_netherite_sword"
+		},
+		"tags": [
+			"smithing_table"
+		],
+		"template": "minecraft:netherite_upgrade_smithing_template",
+		"base": "bf:diamond_sword",
+		"addition": "minecraft:netherite_ingot",
+		"result": "minecraft:netherite_sword"
+	}
+}

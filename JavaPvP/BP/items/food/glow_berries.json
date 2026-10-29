@@ -1,0 +1,37 @@
+{
+	"format_version": "1.20.50",
+	"minecraft:item": {
+		"description": {
+			"identifier": "bf:glow_berries_offhand",
+			"menu_category": {
+				"category": "items"
+			}
+		},
+		"components": {
+			"minecraft:allow_off_hand": {
+				"value": true
+			},
+			"minecraft:icon": {
+				"texture": "glow_berries"
+			},
+			"minecraft:display_name": {
+				"value": "item.glow_berries.name"
+			},
+			"minecraft:tags": {
+				"tags": [
+					"minecraft:is_food"
+				]
+			},
+			"minecraft:offhand_equipped": true,
+			"minecraft:use_animation": "eat",
+			"minecraft:use_modifiers": {
+				"use_duration": 1.6,
+				"movement_modifier": 0.6
+			},
+			"minecraft:food": {
+				"nutrition": 4,
+				"saturation_modifier": 1.2
+			}
+		}
+	}
+}
