@@ -678,7 +678,7 @@ if (response.selection === 16) showJavaMobsConfig(player);
 function showJavaMobsConfig(player) {
 const form = new ModalFormData().title("§l§2Java Mobs");
 form.label("Reach, swing timing, and movement pace per mob. Shorter melee than Bedrock, zombies feel heavy, babies/spiders/brutes feel quicker.");
-form.label("Bosses: ender dragon charges launch you. Withers stay under a bedrock/low ceiling for farms and chase slower above half health.");
+form.label("Bosses: ender dragon charges launch you. The wither uses Java HP, a spawn charge, black/blue skulls, then a half-health ram phase.");
 form.label("Special: iron golem fling, creeper fuse fizzle, skeleton kite, daylight spiders, gold-pacified piglins, enderman teleports, ghast punch, blaze snowballs, and the other big Java differences.");
 form.toggle("Enable Java mob behavior", { defaultValue: Boolean(world.getDynamicProperty("java_mobs_enabled") ?? true) });
 form.toggle("Java melee reach", { defaultValue: Boolean(world.getDynamicProperty("java_mob_reach") ?? true) });
@@ -688,7 +688,7 @@ form.toggle("Line of sight (no wall hits)", { defaultValue: Boolean(world.getDyn
 form.toggle("Movement pace", { defaultValue: Boolean(world.getDynamicProperty("java_mob_movement") ?? true) });
 form.toggle("Pause on swing", { defaultValue: Boolean(world.getDynamicProperty("java_mob_attack_pause") ?? true) });
 form.toggle("Ender dragon launch", { defaultValue: Boolean(world.getDynamicProperty("java_dragon_launch") ?? true) });
-form.toggle("Wither farm / easier fight", { defaultValue: Boolean(world.getDynamicProperty("java_wither_farm") ?? true) });
+form.toggle("Java wither phases (HP, skulls, dash)", { defaultValue: Boolean(world.getDynamicProperty("java_wither_farm") ?? true) });
 form.toggle("Special Java mob behaviors", { defaultValue: Boolean(world.getDynamicProperty("java_mob_special") ?? true) });
 form.show(player).then(response => saveConfigForm(player, response, 10, showExtraConfigMenu, values => {
 world.setDynamicProperty("java_mobs_enabled", Boolean(values[0]));
@@ -1170,7 +1170,7 @@ let dynamicProperties = [
 { id: "java_mob_movement", name: "Java Mob Movement Pace", value: true, category: "combat" },
 { id: "java_mob_attack_pause", name: "Java Mob Swing Pause", value: true, category: "combat" },
 { id: "java_dragon_launch", name: "Java Ender Dragon Launch", value: true, category: "combat" },
-{ id: "java_wither_farm", name: "Java Wither Farm Behavior", value: true, category: "combat" },
+{ id: "java_wither_farm", name: "Java Wither Phases", value: true, category: "combat" },
 { id: "java_mob_special", name: "Java Special Mob Behaviors", value: true, category: "combat" },
 ];
 let dynamicPropertiesPlayer = [
