@@ -333,6 +333,24 @@ try {
 } catch {}
 
 
+function phase2WitherNearby(skeleton) {
+  try {
+    const withers = skeleton.dimension.getEntities({
+      type: "minecraft:wither",
+      location: skeleton.location,
+      maxDistance: 8,
+    });
+    const now = system.currentTick;
+    for (const wither of withers) {
+      const vitals = witherVitals(wither);
+      if (!vitals || vitals.current <= 0 || vitals.ratio > 0.5) continue;
+      if (isSpawning(wither, now, vitals.ratio)) continue;
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
 function witherSkullKind(source) {
   const id = source?.typeId || "";
   if (id === "minecraft:wither") return "body";
@@ -427,7 +445,17 @@ try {
 try {
   world.afterEvents.entitySpawn.subscribe((event) => {
     if (!witherFarmEnabled()) return;
-    const skull = event.entity;
+    const entity = event.entity;
+    if (entity?.typeId === "minecraft:wither_skeleton") {
+      system.run(() => {
+        try {
+          if (!entity.isValid) return;
+          if (phase2WitherNearby(entity)) entity.remove();
+        } catch {}
+      });
+      return;
+    }
+    const skull = entity;
     const kind = witherSkullKind(skull);
     if (kind !== "black" && kind !== "blue") return;
     system.run(() => {
