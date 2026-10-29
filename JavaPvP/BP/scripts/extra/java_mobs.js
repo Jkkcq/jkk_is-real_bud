@@ -75,7 +75,6 @@ const BY_TYPE = {
   "minecraft:phantom": "phantom",
   "minecraft:vex": "vex",
   "minecraft:goat": "goat",
-  "minecraft:wither": "ravager",
 };
 
 const MELEE = new Set(["entityAttack", "contact", "ramAttack"]);
