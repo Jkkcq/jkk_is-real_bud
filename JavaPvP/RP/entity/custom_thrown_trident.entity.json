@@ -1,0 +1,31 @@
+{
+    "format_version": "1.12.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "bf:thrown_trident",
+            "materials": {
+                "default": "item_in_hand",
+                "enchanted": "entity_enchanted"
+            },
+            "textures": {
+                "default": "textures/entity/trident",
+                "enchanted": "textures/misc/enchanted_entity_glint"
+            },
+            "geometry": {
+                "default": "geometry.custom.thrown_trident"
+            },
+            "scripts": {
+                "animate": [
+                    "rotate"
+                ]
+            },
+            "animations": {
+                "rotate": "animation.custom.trident.rotate"
+            },
+            "render_controllers": [
+                "controller.render.custom.thrown_trident",
+                {"controller.render.custom.thrown_trident_enchanted": "q.property('trident:is_enchanted')"}
+            ]
+        }
+    }
+}

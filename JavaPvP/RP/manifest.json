@@ -1,0 +1,46 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Another java addon 10.3.40",
+    "description": "Saturation shower added. PERSONAL USE ONLY.",
+    "uuid": "9037d748-1344-44f0-b9a4-20bb4b2a5d77",
+    "version": [
+      10,
+      3,
+      41
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      50
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "044d94f5-8103-492c-9349-6ee274ca80cb",
+      "version": [
+        10,
+        3,
+        41
+      ]
+    }
+  ],
+  "subpacks": [
+    {
+      "folder_name": "style",
+      "name": "Java book style",
+      "memory_tier": 0
+    },
+    {
+      "folder_name": "mixed",
+      "name": "Mixed Java book UI",
+      "memory_tier": 0
+    },
+    {
+      "folder_name": "color",
+      "name": "Java book color",
+      "memory_tier": 0
+    }
+  ]
+}

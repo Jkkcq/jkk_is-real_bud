@@ -1,0 +1,1 @@
+The 9.0.12 armor/offhand HUD includes only the slot art from the user-provided Durability Armor Viewer pack. Its scripts and UI implementation are not included; JPVP uses its own HUD and personal settings code. Existing JPVP cooldown HUD code and textures remain in this build.

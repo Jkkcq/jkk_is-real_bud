@@ -1,0 +1,59 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:crafting_items_catalog": {
+    "categories": [
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "bf:apple_offhand",
+              "name": "bf:offhand_food"
+            },
+            "items": [
+              "bf:apple_offhand",
+              "bf:baked_potato_offhand",
+              "bf:beef_offhand",
+              "bf:beetroot_offhand",
+              "bf:beetroot_soup_offhand",
+              "bf:bread_offhand",
+              "bf:carrot_offhand",
+              "bf:chicken_offhand",
+              "bf:chorus_fruit_offhand",
+              "bf:cod_offhand",
+              "bf:cooked_beef_offhand",
+              "bf:cooked_chicken_offhand",
+              "bf:cooked_cod_offhand",
+              "bf:cooked_mutton_offhand",
+              "bf:cooked_porkchop_offhand",
+              "bf:cooked_rabbit_offhand",
+              "bf:cooked_salmon_offhand",
+              "bf:cookie_offhand",
+              "bf:enchanted_golden_apple_offhand",
+              "bf:glow_berries_offhand",
+              "bf:golden_apple_offhand",
+              "bf:golden_carrot_offhand",
+              "bf:honey_bottle_offhand",
+              "bf:melon_slice_offhand",
+              "bf:mushroom_stew_offhand",
+              "bf:mutton_offhand",
+              "bf:poisonous_potato_offhand",
+              "bf:porkchop_offhand",
+              "bf:potato_offhand",
+              "bf:pufferfish_offhand",
+              "bf:pumpkin_pie_offhand",
+              "bf:rabbit_offhand",
+              "bf:rabbit_stew_offhand",
+              "bf:rotten_flesh_offhand",
+              "bf:salmon_offhand",
+              "bf:spider_eye_offhand",
+              "bf:sweet_berries_offhand",
+              "bf:tropical_fish_offhand",
+              "bf:golden_apple"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

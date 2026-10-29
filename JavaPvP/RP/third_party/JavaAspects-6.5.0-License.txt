@@ -1,0 +1,22 @@
+As a user, you are permitted to use this resource pack on any legally acquired copy of Minecraft. You are also permitted to modify the resource pack for personal use. You may NOT redistribute any part of this resource pack without explicit permission from AgentMindStorm.
+
+Many texture and sound assets in the resource pack are owned by Mojang Studios or Microsoft. AgentMindStorm makes no claim over these assets.
+
+However, he has ownership over all other assets in the resource pack, such as JSON files. This includes all contributions, as described in the Credits Policy.
+
+============================
+Asset-Sharing Agreements
+============================
+
+AgentMindStorm has the right to create asset-sharing agreements with other creators. These creators may use any part of this resource pack in their own creations, provided their packs are not simply a redistribution of his original pack.
+
+Existing Asset-Sharing Agreements:
+
+MultiPixel (by ZouChenyunfei/Rainvay_ZCYF)
+Fixed Vanilla (by LateLag)
+
+============================
+Generative AI
+============================
+
+Generative AI will never be used by AgentMindStorm to develop resource packs. In addition, no part of any resource pack by AgentMindStorm may be used to train generative AI. This includes images, text, changelogs, and JSON UI. Everything in the pack, including contributions, is protected and may NOT be used to train AI.

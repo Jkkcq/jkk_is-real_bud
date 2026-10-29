@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.humanoid.custom_brandish_spear": {
+			"animation_length": 1000,
+			"bones": {
+				"leftArm": {
+					"rotation": {
+						"0.0": ["!v.is_first_person ? (query.get_equipped_item_name('off_hand') == 'trident' ? -135 : 0) : 0", 0, 0],
+						"1.0": ["!v.is_first_person ? (query.get_equipped_item_name('off_hand') == 'trident' ? -150 : 0) : 0", 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
