@@ -42,10 +42,15 @@ export const EXTRA_OFFHAND_ALWAYS = new Set([
 "minecraft:firework_rocket"
 ]);
 const PASSIVE_MAINHAND = /(?:^|:)(?:[\w]+_)?(?:sword|axe|pickaxe|shovel|hoe|spear|mace)$/;
+export function isMaceItem(item) {
+const id = item?.typeId || "";
+return id === "minecraft:mace" || /(?:^|:)mace$/.test(id) || id.includes("_mace");
+}
 export function mainhandAllowsOffhandUse(item) {
 if (!item?.typeId) return true;
+if (isMaceItem(item)) return true;
 try {
-if (item.hasTag?.(ALLOWED_MAINHAND_TAG) || item.hasTag?.("bf:custom_shield_usable") || item.hasTag?.("jk:custom_shield_usable")) return true;
+if (item.hasTag?.(ALLOWED_MAINHAND_TAG) || item.hasTag?.("bf:custom_shield_usable") || item.hasTag?.("jk:custom_shield_usable") || item.hasTag?.("minecraft:is_mace") || item.hasTag?.("minecraft:is_spear") || item.hasTag?.("minecraft:is_sword") || item.hasTag?.("minecraft:is_axe")) return true;
 } catch {}
 const id = item.typeId;
 if (PASSIVE_MAINHAND.test(id)) return true;
