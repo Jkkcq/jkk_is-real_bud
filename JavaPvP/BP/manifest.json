@@ -7,7 +7,7 @@
     "version": [
       10,
       3,
-      46
+      47
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         10,
         3,
-        46
+        47
       ]
     },
     {
@@ -32,7 +32,7 @@
       "version": [
         10,
         3,
-        46
+        47
       ],
       "entry": "scripts/index.js"
     }
@@ -51,7 +51,7 @@
       "version": [
         10,
         3,
-        46
+        47
       ]
     }
   ]

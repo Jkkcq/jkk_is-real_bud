@@ -21,6 +21,7 @@ const bearGuarding = new Map();
 const witchDrankAt = new Map();
 const beeStung = new Set();
 const lastHop = new Map();
+const strafeState = new Map();
 
 function specialOn() {
   try {
@@ -209,14 +210,6 @@ function tickSpecial(player) {
       if (guarding) {
         try { mob.addEffect("speed", 30, { amplifier: 1, showParticles: false }); } catch {}
       }
-    } else if (KITE.has(id)) {
-      const dx = mob.location.x - player.location.x;
-      const dz = mob.location.z - player.location.z;
-      const dist = Math.hypot(dx, dz);
-      if (dist < 6 && dist > 1.2) {
-        try { mob.addEffect("slowness", 15, { amplifier: 1, showParticles: false }); } catch {}
-        try { mob.applyImpulse({ x: (dx / dist) * 0.16, y: 0, z: (dz / dist) * 0.16 }); } catch {}
-      }
     } else if (id === "minecraft:phantom") {
       const dx = mob.location.x - player.location.x;
       const dz = mob.location.z - player.location.z;
@@ -297,9 +290,81 @@ function tickSpecial(player) {
 system.runInterval(() => {
   if (!specialOn()) return;
   const now = system.currentTick;
+  const seen = new Set();
+  for (const player of world.getPlayers()) {
+    let skeletons = [];
+    try {
+      skeletons = player.dimension.getEntities({
+        location: player.location,
+        maxDistance: 22,
+        families: ["skeleton"],
+      });
+    } catch {
+      try {
+        skeletons = player.dimension.getEntities({ location: player.location, maxDistance: 22 });
+      } catch { continue; }
+    }
+    for (const mob of skeletons) {
+      if (!alive(mob) || !KITE.has(mob.typeId) || seen.has(mob.id)) continue;
+      seen.add(mob.id);
+      strafeSkeleton(mob, player, now);
+    }
+  }
+}, 4);
+
+function strafeSkeleton(mob, player, now) {
+  const toX = player.location.x - mob.location.x;
+  const toZ = player.location.z - mob.location.z;
+  const dist = Math.hypot(toX, toZ);
+  if (dist < 0.5 || dist > 20) return;
+  let state = strafeState.get(mob.id);
+  if (!state || now >= state.nextFlip) {
+    const dir = state ? -state.dir : (Math.random() < 0.5 ? 1 : -1);
+    state = { dir, nextFlip: now + 16 + Math.floor(Math.random() * 14) };
+    strafeState.set(mob.id, state);
+  }
+  let x = (-toZ / dist) * state.dir;
+  let z = (toX / dist) * state.dir;
+  if (dist < 7) {
+    x -= toX / dist;
+    z -= toZ / dist;
+  } else if (dist > 15) {
+    x += (toX / dist) * 0.4;
+    z += (toZ / dist) * 0.4;
+  }
+  const len = Math.hypot(x, z) || 1;
+  const power = dist < 7 ? 0.3 : 0.22;
+  try { mob.applyImpulse({ x: (x / len) * power, y: 0.01, z: (z / len) * power }); } catch {}
+}
+
+try {
+  world.afterEvents.entitySpawn.subscribe((event) => {
+    if (!specialOn()) return;
+    const arrow = event.entity;
+    if (arrow?.typeId !== "minecraft:arrow") return;
+    system.run(() => {
+      try {
+        if (!alive(arrow)) return;
+        const owner = arrow.getComponent("minecraft:projectile")?.owner;
+        if (!owner || !KITE.has(owner.typeId)) return;
+        const spread = 0.34;
+        arrow.applyImpulse({
+          x: (Math.random() - 0.5) * spread,
+          y: (Math.random() - 0.5) * spread * 0.4,
+          z: (Math.random() - 0.5) * spread,
+        });
+      } catch {}
+    });
+  });
+} catch {}
+
+system.runInterval(() => {
+  if (!specialOn()) return;
+  const now = system.currentTick;
   if (now % 80 === 0) {
     for (const [id, until] of aggroUntil) if (until < now) aggroUntil.delete(id);
     for (const [id, tick] of witchDrankAt) if (now - tick > 400) witchDrankAt.delete(id);
+    for (const [id, state] of strafeState) if (now - state.nextFlip > 80) strafeState.delete(id);
     if (beeStung.size > 40) beeStung.clear();
   }
   for (const player of world.getPlayers()) {
