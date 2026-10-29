@@ -36,7 +36,11 @@ const ALWAYS_SWAPPABLE = new Set([
 "minecraft:clock", "minecraft:map", "minecraft:filled_map",
 "minecraft:writable_book", "minecraft:written_book", "minecraft:book",
 "minecraft:firework_rocket", "minecraft:goat_horn", "minecraft:brush",
-"minecraft:ender_eye"
+"minecraft:ender_eye", "minecraft:bow", "minecraft:crossbow",
+"minecraft:mace", "minecraft:shears", "minecraft:flint_and_steel",
+"minecraft:bucket", "minecraft:water_bucket", "minecraft:lava_bucket",
+"minecraft:elytra", "minecraft:lead", "minecraft:name_tag", "minecraft:saddle",
+"minecraft:arrow", "minecraft:spectral_arrow", "minecraft:bundle"
 ]);
 const BLOCK_ITEM_CACHE = new Map();
 const DOUBLE_SNEAK_WINDOW = 15;
@@ -74,7 +78,8 @@ return /(?:^|:)(?:wooden|stone|copper|iron|golden|diamond|netherite)_(?:sword|ax
 || /(?:^|:)bf:(?:wooden|stone|copper|iron|golden|diamond|netherite)_spear$/.test(typeId);
 }
 function isSupported(item, foodsEnabled = cfg.offhand_foods_enabled !== false, blocksEnabled = cfg.offhand_blocks_enabled !== false) {
-if (!item) return false;
+if (!item?.typeId) return false;
+if (cfg.offhand_any_item !== false) return true;
 if (ALWAYS_SWAPPABLE.has(item.typeId) || PROJECTILES.has(item.typeId) || isWeapon(item) || hasTag(item, "bf:custom_shield")) return true;
 if (isSwordAxeOrSpear(item.typeId)) return true;
 if (blocksEnabled && isPlaceableBlockItem(item)) return true;

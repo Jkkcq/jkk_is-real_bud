@@ -866,10 +866,11 @@ form.toggle("Place into Replaceable Blocks", { defaultValue: Boolean(world.getDy
 form.toggle("Replace Plants and Snow Layers", { defaultValue: Boolean(world.getDynamicProperty("offhand_block_replace_plants") ?? true) });
 form.toggle("Use Block Orientation", { defaultValue: Boolean(world.getDynamicProperty("offhand_block_orientation_enabled") ?? true) });
 form.toggle("Prevent Placing Inside Yourself", { defaultValue: Boolean(world.getDynamicProperty("offhand_block_prevent_self_placement") ?? true) });
+form.toggle("Any item can be swapped to offhand", { defaultValue: Boolean(world.getDynamicProperty("offhand_any_item") ?? true) });
 addNumericField(form, "Offhand block reach (blocks)", 1, 12, configSliderDefault("offhand_block_reach", 6, 1, 12));
 addNumericField(form, "Placement cooldown (ticks)", 0, 20, configSliderDefault("offhand_block_cooldown_ticks", 1, 0, 20));
 addNumericField(form, "Trident charge time (ticks)", 1, 40, configSliderDefault("offhand_trident_charge_ticks", 10, 1, 40));
-form.show(player).then(response => saveConfigForm(player, response, 15, showExtraConfigMenu, values => {
+form.show(player).then(response => saveConfigForm(player, response, 16, showExtraConfigMenu, values => {
 world.setDynamicProperty("offhand_enabled", Boolean(values[0]));
 world.setDynamicProperty("offhand_foods_enabled", Boolean(values[1]));
 world.setDynamicProperty("offhand_swap_enabled", Boolean(values[2]));
@@ -882,9 +883,10 @@ world.setDynamicProperty("offhand_block_direct_replace", Boolean(values[8]));
 world.setDynamicProperty("offhand_block_replace_plants", Boolean(values[9]));
 world.setDynamicProperty("offhand_block_orientation_enabled", Boolean(values[10]));
 world.setDynamicProperty("offhand_block_prevent_self_placement", Boolean(values[11]));
-world.setDynamicProperty("offhand_block_reach", clampNumber(Number(values[12]), 1, 12, 6));
-world.setDynamicProperty("offhand_block_cooldown_ticks", Math.round(clampNumber(Number(values[13]), 0, 20, 1)));
-world.setDynamicProperty("offhand_trident_charge_ticks", Math.round(clampNumber(Number(values[14]), 1, 40, 10)));
+world.setDynamicProperty("offhand_any_item", Boolean(values[12]));
+world.setDynamicProperty("offhand_block_reach", clampNumber(Number(values[13]), 1, 12, 6));
+world.setDynamicProperty("offhand_block_cooldown_ticks", Math.round(clampNumber(Number(values[14]), 0, 20, 1)));
+world.setDynamicProperty("offhand_trident_charge_ticks", Math.round(clampNumber(Number(values[15]), 1, 40, 10)));
 }, "Could not save offhand settings."));
 }
 function showOffhandTimingConfig(player) {
@@ -1053,6 +1055,7 @@ let dynamicProperties = [
 { id: "offhand_enabled", name: "Offhand Enabled", value: true, category: "extra" },
 { id: "offhand_foods_enabled", name: "Offhand Foods Enabled", value: true, category: "extra" },
 { id: "offhand_swap_enabled", name: "Offhand Swap Enabled", value: true, category: "extra" },
+{ id: "offhand_any_item", name: "Any Item Offhand Swap", value: true, category: "extra" },
 { id: "underwater_doors_enabled", name: "Underwater Doors Enabled", value: true, category: "extra" },
 { id: "server_collection_icons_enabled", name: "Server Collection Config Icons", value: false, category: "compatibility" },
 { id: "java_saturation_enabled", name: "Java Saturation Enabled", value: true, category: "combat" },

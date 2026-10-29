@@ -1,6 +1,7 @@
 import { EquipmentSlot, GameMode, ItemStack, Potions, system, world } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick } from "../../engine/offhandRightClick.js";
+import { mainhandAllowsOffhandUse } from "./listed_items.js";
 const FISHING_ROD = "minecraft:fishing_rod";
 const POTION_TYPES = new Set([
 "minecraft:potion",
@@ -51,7 +52,7 @@ return undefined;
 }
 }
 function allowedMainhand(item) {
-return WEAPON_TAGS.some((tag) => hasTag(item, tag));
+return mainhandAllowsOffhandUse(item);
 }
 function canUseInteract(event) {
 if (event?.kind === "entity") return false;

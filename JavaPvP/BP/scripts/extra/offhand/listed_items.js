@@ -6,7 +6,8 @@ export const OFFHAND_THROWABLES = {
 "minecraft:experience_bottle": "minecraft:xp_bottle",
 "minecraft:wind_charge": "minecraft:wind_charge_projectile",
 "minecraft:splash_potion": "minecraft:splash_potion",
-"minecraft:lingering_potion": "minecraft:lingering_potion"
+"minecraft:lingering_potion": "minecraft:lingering_potion",
+"minecraft:ender_eye": "minecraft:eye_of_ender"
 };
 export const OFFHAND_INTERACT_HOLD_ITEMS = new Set([
 "minecraft:shield", "bf:shield",
@@ -37,11 +38,25 @@ export const EXTRA_OFFHAND_ALWAYS = new Set([
 "minecraft:firework_rocket",
 "minecraft:goat_horn",
 "minecraft:brush",
-"minecraft:ender_eye"
+"minecraft:ender_eye",
+"minecraft:firework_rocket"
 ]);
+const PASSIVE_MAINHAND = /(?:^|:)(?:[\w]+_)?(?:sword|axe|pickaxe|shovel|hoe|spear|mace)$/;
+export function mainhandAllowsOffhandUse(item) {
+if (!item?.typeId) return true;
+try {
+if (item.hasTag?.(ALLOWED_MAINHAND_TAG) || item.hasTag?.("bf:custom_shield_usable") || item.hasTag?.("jk:custom_shield_usable")) return true;
+} catch {}
+const id = item.typeId;
+if (PASSIVE_MAINHAND.test(id)) return true;
+if (id === "minecraft:stick" || id === "minecraft:shield" || id.endsWith(":shield") || id.includes("arrow") || id === "minecraft:totem_of_undying") return true;
+return false;
+}
 export const THROW_COOLDOWNS = {
 "minecraft:ender_pearl": 20,
 "minecraft:wind_charge": 20,
 "minecraft:splash_potion": 10,
-"minecraft:lingering_potion": 10
+"minecraft:lingering_potion": 10,
+"minecraft:ender_eye": 10,
+"minecraft:firework_rocket": 8
 };
