@@ -15,10 +15,6 @@ heldThrowReleaseRuns.delete(playerId);
 }, 20);
 heldThrowReleaseRuns.set(playerId, release);
 }
-function hasAllowedWeaponTag(item) {
-try { return Boolean(item?.hasTag(ALLOWED_MAINHAND_TAG) || item?.hasTag("bf:custom_shield_usable") || item?.hasTag("jk:custom_shield_usable")); }
-catch { return false; }
-}
 function removeOneOffhand(player, item) {
 if (player.getGameMode() === GameMode.Creative) return;
 const equippable = player.getComponent("minecraft:equippable");
