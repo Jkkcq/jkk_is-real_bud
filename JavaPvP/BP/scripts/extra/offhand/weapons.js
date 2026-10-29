@@ -1,7 +1,7 @@
 /**
  * Use weapons that are sitting in the offhand.
- * Spears jab. Swords, axes, and a mace do a shorter swing.
- * A mace in the main hand is allowed, same as a sword or axe.
+ * Spears jab. Swords and axes stay in the offhand without swinging, like Java.
+ * A mace in the main hand can still use the offhand.
  */
 import { EquipmentSlot, GameMode, system } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
@@ -9,8 +9,6 @@ import { onOffhandRightClick } from "../../engine/offhandRightClick.js";
 import { mainhandBlocksOffhand } from "./listed_items.js";
 
 const SPEAR_DAMAGE = { wooden: 5, stone: 6, copper: 6, golden: 4, iron: 7, diamond: 8, netherite: 9 };
-const SWORD_DAMAGE = { wooden: 4, stone: 5, copper: 5, golden: 4, iron: 6, diamond: 7, netherite: 8 };
-const AXE_DAMAGE = { wooden: 7, stone: 9, copper: 7, golden: 7, iron: 9, diamond: 9, netherite: 10 };
 const lastUse = new Map();
 
 function tierOf(id) {
@@ -20,8 +18,6 @@ return match ? match[1] : "iron";
 function weaponProfile(id) {
 if (!id) return null;
 if (/spear$/.test(id)) return { kind: "spear", reach: 4.5, damage: SPEAR_DAMAGE[tierOf(id)] ?? 7, hits: 2, lunge: 0.22, sound: "item.spear.attack_hit" };
-if (/_sword$/.test(id) || id === "minecraft:sword") return { kind: "sword", reach: 3, damage: SWORD_DAMAGE[tierOf(id)] ?? 6, hits: 1, lunge: 0, sound: "game.player.attack.strong" };
-if (/_axe$/.test(id)) return { kind: "axe", reach: 3, damage: AXE_DAMAGE[tierOf(id)] ?? 9, hits: 1, lunge: 0, sound: "game.player.attack.strong" };
 if (id === "minecraft:mace" || /(?:^|:)mace$/.test(id)) return { kind: "mace", reach: 3, damage: 6, hits: 1, lunge: 0, sound: "mace.smash_ground" };
 return null;
 }
