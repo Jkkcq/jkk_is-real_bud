@@ -341,7 +341,7 @@ addNumericField(form, "Shield facing angle (degrees)", 30, 180, configSliderDefa
 addNumericField(form, "Durability per normal hit", 0, 20, configSliderDefault("custom_shield_hit_durability", 1, 0, 20));
 addNumericField(form, "Durability per mace hit", 0, 50, configSliderDefault("custom_shield_mace_durability", 10, 0, 50));
 form.toggle("Enable shield raise delay", { defaultValue: Boolean(world.getDynamicProperty("custom_shield_raise_delay_enabled") ?? true) });
-addNumericField(form, "Shield raise delay (ticks)", 0, 20, configSliderDefault("custom_shield_raise_delay_ticks", 1, 0, 20));
+addNumericField(form, "Shield raise delay (ticks)", 0, 20, configSliderDefault("custom_shield_raise_delay_ticks", 5, 0, 20));
 form.show(player).then(response => saveConfigForm(player, response, 11, showCombatConfigMenu, values => {
 const value = Boolean(values[0]);
 world.setDynamicProperty("custom_shield_enabled", value);
@@ -355,7 +355,7 @@ world.setDynamicProperty("shield_facing_threshold_degrees", clampNumber(Number(v
 world.setDynamicProperty("custom_shield_hit_durability", Math.round(clampNumber(Number(values[7]), 0, 20, 1)));
 world.setDynamicProperty("custom_shield_mace_durability", Math.round(clampNumber(Number(values[8]), 0, 50, 10)));
 world.setDynamicProperty("custom_shield_raise_delay_enabled", Boolean(values[9]));
-world.setDynamicProperty("custom_shield_raise_delay_ticks", Math.round(clampNumber(Number(values[10]), 0, 20, 1)));
+world.setDynamicProperty("custom_shield_raise_delay_ticks", Math.round(clampNumber(Number(values[10]), 0, 20, 5)));
 updateRules();
 }, "Could not save shield settings."));
 }
@@ -1133,6 +1133,7 @@ let dynamicPropertiesPlayer = [
 { id: "shield_side_pose", name: "Side Shield Pose", value: true, category: "controls" },
 { id: "offhand_swap", name: "Offhand Swap Mode", value: 0, category: "controls" },
 { id: "offhand_swap_sneak_presses", name: "Offhand Swap Sneak Presses", value: 2, category: "controls" },
+{ id: "emote_hotbar_slot", name: "Emote Hotbar Slot", value: 1, category: "controls" },
 { id: "offset", name: "Mobile Sat Offset", value: true, category: "gameplay" }
 ];
 export const cfg = {};
@@ -1144,10 +1145,21 @@ cfg[prop.id] = v !== undefined
 ? (typeof def === 'boolean' ? Boolean(v) : typeof def === 'number' ? Number(v) : v)
 : def;
 }
-cfg.java_saturation_enabled = Boolean(world.getDynamicProperty("java_saturation_enabled") ?? true);
+// Prefer modern keys; fall back to legacy sat/shield aliases from older forms.
+const satLegacy = world.getDynamicProperty("sat");
+const shieldLegacy = world.getDynamicProperty("shield");
+if (world.getDynamicProperty("java_saturation_enabled") === undefined && satLegacy !== undefined) {
+world.setDynamicProperty("java_saturation_enabled", Boolean(satLegacy));
+}
+if (world.getDynamicProperty("custom_shield_enabled") === undefined && shieldLegacy !== undefined) {
+world.setDynamicProperty("custom_shield_enabled", Boolean(shieldLegacy));
+}
+cfg.java_saturation_enabled = Boolean(world.getDynamicProperty("java_saturation_enabled") ?? satLegacy ?? true);
 cfg.java_saturation_speed = Number(world.getDynamicProperty("java_saturation_speed") ?? 1.0);
 cfg.anti_spam_enabled = Boolean(world.getDynamicProperty("anti_spam_enabled") ?? true);
-cfg.custom_shield_enabled = Boolean(world.getDynamicProperty("custom_shield_enabled") ?? true);
+cfg.custom_shield_enabled = Boolean(world.getDynamicProperty("custom_shield_enabled") ?? shieldLegacy ?? true);
+cfg.sat = cfg.java_saturation_enabled;
+cfg.shield = cfg.custom_shield_enabled;
 cfg.spear_aptitude_enabled = Boolean(world.getDynamicProperty("spear_aptitude_enabled") ?? true);
 cfg.spear_aptitude_swap_window = Number(world.getDynamicProperty("spear_aptitude_swap_window") ?? 2);
 cfg.spear_aptitude_hunger_reset = Boolean(world.getDynamicProperty("spear_aptitude_hunger_reset") ?? true);
@@ -1258,11 +1270,11 @@ const form = new ModalFormData().title("§lServer Configuration");
 form.header(`§l§6Mechanics§r`);
 form.divider();
 form.toggle("Java Saturation", {
-defaultValue: Boolean(dp(player, { id: "sat" }))
+defaultValue: Boolean(world.getDynamicProperty("java_saturation_enabled") ?? dp(player, { id: "sat" }))
 });
 form.label(`§7Replaces Bedrock saturation with Java Edition's.§r\n\n§fwill turn off if you have §lnatural regeneration §rdisabled.`);
 form.toggle("Custom Shield", {
-defaultValue: Boolean(dp(player, { id: "shield" }))
+defaultValue: Boolean(world.getDynamicProperty("custom_shield_enabled") ?? dp(player, { id: "shield" }))
 });
 form.label(`§7Enables the custom right click shield, hold interact with \n\n     or §r`);
 let savedKnockbackProfile = world.getDynamicProperty("knockback_profile");
@@ -1324,6 +1336,12 @@ world.setDynamicProperty(entry.id, value);
 const prop = dynamicProperties.find(p => p.id === entry.id);
 if (prop) prop.value = value;
 });
+// Keep legacy sat/shield aliases in sync with the keys gameplay actually reads.
+const satVal = world.getDynamicProperty("sat");
+const shieldVal = world.getDynamicProperty("shield");
+if (satVal !== undefined) world.setDynamicProperty("java_saturation_enabled", Boolean(satVal));
+if (shieldVal !== undefined) world.setDynamicProperty("custom_shield_enabled", Boolean(shieldVal));
+reloadConfig();
 updateRules();
 player.sendMessage("Configuration saved.");
 }).catch(() => {
@@ -1353,6 +1371,10 @@ form.toggle("Personal Armor HUD", {
 defaultValue: Boolean(player.getDynamicProperty("armor_hud") ?? true)
 });
 form.label("§7Show the armor durability HUD for yourself.§r");
+form.toggle("Mobile saturation offset", {
+defaultValue: Boolean(player.getDynamicProperty("offset") ?? true)
+});
+form.label("§7Shifts the saturation HUD slightly on touch / mobile layouts.§r");
 const savedArmorHudStyle = player.getDynamicProperty("armor_hud_style") ?? "h";
 const armorHudStyleIndex = savedArmorHudStyle === "v" ? 1 : savedArmorHudStyle === "b" ? 2 : 0;
 form.dropdown("Armor HUD Style", [
@@ -1367,7 +1389,7 @@ player.sendMessage("§7Configuration canceled.");
 return;
 }
 const values = getFormValues(response);
-if (values.length < 5) {
+if (values.length < 6) {
 player.sendMessage("§cControl settings were incomplete. Close other menus and try again.");
 return;
 }
@@ -1375,7 +1397,8 @@ player.setDynamicProperty("shield_side_pose", Boolean(values[0]));
 player.setDynamicProperty("offhand_swap", Math.max(0, Math.min(3, Number(values[1]) || 0)));
 player.setDynamicProperty("emote_hotbar_slot", Math.max(1, Math.min(9, Number(values[2]) || 1)));
 player.setDynamicProperty("armor_hud", Boolean(values[3]));
-player.setDynamicProperty("armor_hud_style", ["h", "v", "b"][Number(values[4])] ?? "h");
+player.setDynamicProperty("offset", Boolean(values[4]));
+player.setDynamicProperty("armor_hud_style", ["h", "v", "b"][Number(values[5])] ?? "h");
 player.sendMessage("§a§lControl settings saved.");
 }).catch(() => {
 player.sendMessage("§cFailed to show control settings form.");

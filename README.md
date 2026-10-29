@@ -1,6 +1,6 @@
 # Minecraft Bedrock Addons
 
-## Java PvP Addon (10.3.41)
+## Java PvP Addon (10.3.42)
 Location: `JavaPvP/`
 
 ### Fixes
@@ -23,7 +23,15 @@ Features:
 - Saturation shower HUD, emote hotbar swap
 - CPvP / advanced sword / redstone-adjacent combat extras
 
-## Java Redstone Addon (v1.22.1)
+
+### Follow-up wiring (10.3.42 / 1.22.2)
+- Weapon cooldown config now applies to shovel / pickaxe / hoe / spear / fist
+- Cobweb waterlog mechanics respect `cobweb_enabled`
+- Legacy `sat` / `shield` config aliases sync to `java_saturation_enabled` / `custom_shield_enabled`
+- Mobile saturation offset toggle wired into HUD platform selection
+- Sticky piston QC path uses sticky delay queue when enabled
+
+## Java Redstone Addon (v1.22.2)
 Location: `JavaRedstone/`
 
 ### Fixes / wiring
