@@ -66,7 +66,6 @@ export const THROW_COOLDOWNS = {
 "minecraft:ender_eye": 10,
 "minecraft:firework_rocket": 8
 };
-import { BlockPermutation } from "@minecraft/server";
 const blockItemCache = new Map();
 const INTERACTABLE_PARTS = [
 "bow", "crossbow", "fishing_rod", "potion", "bucket", "flint_and_steel", "shears",
