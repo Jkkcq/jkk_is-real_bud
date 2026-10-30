@@ -1,0 +1,11 @@
+Another java pvp addon and Another java redstone addon
+
+1. Open Another-java-pvp-addon.mcaddon. Minecraft Bedrock imports the behavior pack and the resource pack.
+2. Open Another-java-redstone-addon.mcaddon.
+3. In the world settings, activate each behavior pack and its resource pack.
+4. Turn on Beta APIs if the world asks for it.
+5. Needs Minecraft Bedrock 1.26.50 or newer.
+
+In game:
+- PvP: /jk:config world   or   /jk:config personal
+- Redstone: /jr:redstone help   or   /scriptevent jr:help
