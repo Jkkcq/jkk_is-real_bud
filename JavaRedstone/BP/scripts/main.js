@@ -16,7 +16,7 @@
  * Toggle: !jr help | /scriptevent jr:help
  */
 
-import { world, system, ItemStack, BlockPermutation } from "@minecraft/server";
+import { world, system, ItemStack, BlockPermutation, CommandPermissionLevel, CustomCommandStatus, CustomCommandParamType } from "@minecraft/server";
 
 // ===================== config =====================
 const DP = {
@@ -478,7 +478,7 @@ function dustPassAround(player, radius) {
   const { x, y, z } = player.location;
   const r = Math.min(12, radius); // keep cheap
   // Multi-iteration relaxation in fixed DIR_ORDER (cheese for update order)
-  for (let iter = 0; iter < 2; iter++) {
+  for (let iter = 0; iter < 1; iter++) {
     for (let dy = -r; dy <= r; dy++) {
       for (let dx = -r; dx <= r; dx++) {
         for (let dz = -r; dz <= r; dz++) {
@@ -532,6 +532,10 @@ function processQC(block) {
     } catch {}
     noteStickyPowered(block);
     try { watchDoubleRetract(block); } catch {}
+    // Prefer sticky timing queue when enabled (Java-ish sticky extend delay)
+    if (cfg("stickyDelay") && block.typeId === "minecraft:sticky_piston" && typeof stickyExtend === "function") {
+      try { if (stickyExtend(block)) return; } catch {}
+    }
     queueJavaExtend(block);
     return;
   }
@@ -542,88 +546,158 @@ function processQC(block) {
   }
 }
 
-function scanAround(entity, radius) {
+function handleScannedBlock(b) {
+  if (!b) return;
+  const id = b.typeId;
+  if (!id || id === "minecraft:air") return;
+  if (PISTONS.has(id) || DISPENSE.has(id)) {
+    processQC(b);
+    return;
+  }
+  // Wire features that previously existed as dead helpers
+  try {
+    if (id === DUST) {
+      if (typeof canDustGoDown === "function" && !canDustGoDown(b)) {
+        // leave engine alone; dustPass still clamps levels
+      } else if (typeof queueInstantWire === "function") {
+        queueInstantWire(b);
+      }
+    } else if (id.includes("redstone_torch")) {
+      if (typeof checkTorchBurnout === "function") checkTorchBurnout(b);
+    } else if (id.includes("rail")) {
+      if (typeof updateRails === "function") updateRails(b);
+    } else if (COMPARATORS.has(id)) {
+      if (typeof comparatorSubtract === "function") comparatorSubtract(b);
+      if (typeof comparatorSubtractMode === "function") comparatorSubtractMode(b);
+    } else if (id === "minecraft:copper_bulb" || id === "minecraft:exposed_copper_bulb" || id === "minecraft:weathered_copper_bulb" || id === "minecraft:oxidized_copper_bulb" || id === "minecraft:waxed_copper_bulb") {
+      if (typeof checkCopperBulbs === "function") checkCopperBulbs(b);
+    }
+  } catch {}
+}
+
+// Hard cap so a full-volume scan cannot trip the script watchdog.
+const SCAN_BUDGET = 320;
+const urgentScans = [];
+const sliceCursor = new Map();
+
+function scanBox(dim, x, y, z, r, budget) {
+  x = Math.floor(x); y = Math.floor(y); z = Math.floor(z);
+  const rad = Math.max(1, Math.min(4, r | 0));
+  let used = 0;
+  for (let dy = -rad; dy <= rad && used < budget; dy++) {
+    const yy = y + dy;
+    if (yy < -64 || yy > 319) continue;
+    for (let dx = -rad; dx <= rad && used < budget; dx++) {
+      for (let dz = -rad; dz <= rad; dz++) {
+        if (used >= budget) break;
+        used++;
+        let b;
+        try { b = dim.getBlock({ x: x + dx, y: yy, z: z + dz }); } catch { continue; }
+        if (!b || b.isAir) continue;
+        handleScannedBlock(b);
+      }
+    }
+  }
+  return used;
+}
+
+function queueUrgentScan(dim, loc, r = 3) {
+  if (!dim || !loc) return;
+  if (urgentScans.length > 24) urgentScans.shift();
+  urgentScans.push({ dim, x: loc.x, y: loc.y, z: loc.z, r });
+}
+
+function scanSlice(entity, radius, budget) {
   const dim = entity.dimension;
   const x = Math.floor(entity.location.x);
   const y = Math.floor(entity.location.y);
   const z = Math.floor(entity.location.z);
-  const r = Math.max(6, Math.min(32, Number(radius) || 20));
-  for (let dy = -r; dy <= r; dy++) {
-    for (let dx = -r; dx <= r; dx++) {
+  const r = Math.max(4, Math.min(8, Number(radius) || 8));
+  let cursor = sliceCursor.get(entity.id);
+  // Keep the vertical cursor when the player walks. Resetting on every
+  // block of movement would rescan only the bottom slice forever.
+  if (!cursor || cursor.r !== r) cursor = { r, dy: -r };
+  const dy = cursor.dy;
+  const yy = y + dy;
+  let used = 0;
+  if (yy >= -64 && yy <= 319) {
+    for (let dx = -r; dx <= r && used < budget; dx++) {
       for (let dz = -r; dz <= r; dz++) {
         if (dx * dx + dy * dy + dz * dz > r * r) continue;
+        if (used >= budget) break;
+        used++;
         let b;
-        try { b = dim.getBlock({ x: x + dx, y: y + dy, z: z + dz }); } catch { continue; }
-        if (!b) continue;
-        const id = b.typeId;
-        if (PISTONS.has(id) || DISPENSE.has(id)) {
-          processQC(b);
-          continue;
-        }
-        // Wire features that previously existed as dead helpers
-        try {
-          if (id === DUST) {
-            if (typeof canDustGoDown === "function" && !canDustGoDown(b)) {
-              // leave engine alone; dustPass still clamps levels
-            } else if (typeof queueInstantWire === "function") {
-              queueInstantWire(b);
-            }
-          } else if (id.includes("redstone_torch")) {
-            if (typeof checkTorchBurnout === "function") checkTorchBurnout(b);
-          } else if (id.includes("rail")) {
-            if (typeof updateRails === "function") updateRails(b);
-          } else if (COMPARATORS.has(id)) {
-            if (typeof comparatorSubtract === "function") comparatorSubtract(b);
-            if (typeof comparatorSubtractMode === "function") comparatorSubtractMode(b);
-          } else if (id === "minecraft:copper_bulb") {
-            if (typeof checkCopperBulbs === "function") checkCopperBulbs(b);
-          }
-        } catch {}
+        try { b = dim.getBlock({ x: x + dx, y: yy, z: z + dz }); } catch { continue; }
+        if (!b || b.isAir) continue;
+        handleScannedBlock(b);
       }
     }
   }
+  cursor.dy = dy + 1;
+  if (cursor.dy > r) cursor.dy = -r;
+  sliceCursor.set(entity.id, cursor);
+  return used;
 }
 
 // ===================== scheduling =====================
 let scanDue = false;
 function requestScan() { scanDue = true; }
 
-let scanTick = 0;
+let sliceTurn = 0;
 system.runInterval(() => {
   if (cfg("enabled") === false) return;
-  scanTick++;
-  // Responsive: scan every tick if due, otherwise every 2 ticks
-  if (!scanDue && scanTick % 2 !== 0) return;
-  if (cfg("budMode") && !scanDue) return;
-  scanDue = false;
-  const r = Math.min(12, cfg("radius"));
-  for (const p of world.getPlayers()) {
-    try { scanAround(p, r); } catch {}
+  let budget = SCAN_BUDGET;
+  if (scanDue || urgentScans.length) {
+    scanDue = false;
+    while (urgentScans.length && budget > 40) {
+      const job = urgentScans.shift();
+      try { budget -= scanBox(job.dim, job.x, job.y, job.z, job.r, Math.min(budget, 180)); } catch {}
+    }
+  }
+  if (cfg("budMode") && urgentScans.length === 0 && budget === SCAN_BUDGET) return;
+  const players = world.getPlayers();
+  if (!players.length || budget < 40) return;
+  const start = sliceTurn % players.length;
+  sliceTurn++;
+  for (let i = 0; i < players.length && budget >= 40; i++) {
+    const player = players[(start + i) % players.length];
+    try { budget -= scanSlice(player, Math.min(8, cfg("radius")), Math.min(budget, 180)); } catch {}
   }
 }, 1);
 
-// denser dust pass
+// denser dust pass — small radius so it cannot scan a whole chunk every few ticks
 system.runInterval(() => {
   if (!cfg("enabled") || !cfg("dustFix")) return;
   for (const p of world.getPlayers()) {
-    try { dustPassAround(p, 8); } catch {}
+    try { dustPassAround(p, 4); } catch {}
   }
-}, 10);
+}, 20);
+
+try {
+  world.afterEvents.playerLeave.subscribe(({ playerId }) => sliceCursor.delete(playerId));
+} catch {}
 
 for (const ev of [
-  "blockPlace", "blockBreak", "buttonPush", "leverAction",
-  "pressurePlatePush", "tripWireTrip", "projectileHitBlock",
+  "playerPlaceBlock", "playerBreakBlock", "buttonPush", "leverAction",
+  "pressurePlatePush", "pressurePlatePop", "tripWireTrip", "projectileHitBlock",
 ]) {
   try {
     const signal = world.afterEvents[ev];
-    if (signal?.subscribe) signal.subscribe(() => requestScan());
+    if (signal?.subscribe) signal.subscribe((event) => {
+      requestScan();
+      const hit = typeof event.getBlockHit === "function" ? event.getBlockHit() : undefined;
+      const block = event.block ?? event.hitBlock ?? hit?.block ?? event.sourceBlock;
+      const dim = event.dimension ?? block?.dimension ?? hit?.dimension ?? event.source?.dimension ?? event.player?.dimension;
+      const loc = block?.location ?? event.block?.location;
+      if (dim && loc) queueUrgentScan(dim, loc, 3);
+    });
   } catch {}
 }
 
 // ===================== UI / commands =====================
 function statusLines() {
   return [
-    `§6[Java Redstone]§r enabled=§f${cfg("enabled")}`,
+    `§6[Another java redstone addon]§r enabled=§f${cfg("enabled")}`,
     `§7QC pistons=§f${cfg("qcPistons")} §7dispense=§f${cfg("qcDispense")} §7BUD=§f${cfg("budMode")}`,
     `§7soft/hard=§f${cfg("softHard")} §70-tick=§f${cfg("zeroTick")} §7dust=§f${cfg("dustFix")}`,
     `§7pistonTiming=§f${cfg("pistonTiming")} §7blockDrop=§f${cfg("blockDrop")}`,
@@ -673,7 +747,7 @@ function handle(player, raw) {
   }
   if (c === "help" || c === "?") {
     player.sendMessage([
-      "§6=== Java Redstone (cheese port) ===",
+      "§6=== Another java redstone addon ===",
       "§eQC§7 — power space above piston/dispenser/dropper",
       "§eSoft/Hard§7 — dust vs repeater-style QC checks",
       "§e0-tick§7 — same-tick pulse remove cheese",
@@ -684,9 +758,10 @@ function handle(player, raw) {
       "§eInstantWire§7 — same-tick dust neighbor refresh",
       "§eDoubleRetract§7 — sticky 1-tick drop attempt",
       "§eCopperBulb§7 — edge-triggered toggle near players",
-      "§f!jr toggle|bud|softhard|0tick|dust|timing|drop|pistons|dispense",
-      "§f!jr torch|rails|wire|retract|bulb|sticky",
-      "§f!jr radius 20§7  §f!jr allon",
+      "§f/jr:redstone help§7  or  §f!jr help§7  or  §f/scriptevent jr:help",
+      "§f/jr:redstone toggle|bud|softhard|0tick|dust|timing|drop|pistons|dispense",
+      "§f/jr:redstone torch|rails|wire|retract|bulb|sticky|allon",
+      "§f/jr:redstone radius6|radius12|radius20|radius32",
       "§8Still approximate — not real Java engine redstone.",
     ].join("\n"));
     return;
@@ -708,9 +783,46 @@ try {
     const m = String(ev.message || "").trim();
     if (!m.toLowerCase().startsWith("!jr")) return;
     ev.cancel = true;
-    system.run(() => handle(ev.sender, m.slice(3).trim() || "status"));
+    const sender = ev.sender;
+    system.run(() => handle(sender, m.slice(3).trim() || "status"));
   });
 } catch {}
+
+const JR_ACTIONS = [
+  "status", "help", "toggle", "on", "off", "bud", "pistons", "dispense",
+  "softhard", "soft", "0tick", "zerotick", "dust", "timing", "drop",
+  "torch", "burnout", "rails", "rail", "wire", "instant", "retract", "doubleretract",
+  "bulb", "copper", "sticky", "pushlimit", "dustnodown", "note", "allon",
+  "radius6", "radius12", "radius20", "radius32",
+];
+try {
+  system.beforeEvents.startup.subscribe((init) => {
+    init.customCommandRegistry.registerEnum("jr:action", JR_ACTIONS);
+    init.customCommandRegistry.registerCommand({
+      name: "jr:redstone",
+      description: "Another java redstone addon controls",
+      permissionLevel: CommandPermissionLevel.Any,
+      cheatsRequired: false,
+      optionalParameters: [
+        { type: CustomCommandParamType.Enum, name: "jr:action" },
+      ],
+    }, (origin, action) => {
+      const player = origin.sourceEntity;
+      if (!player || player.typeId !== "minecraft:player") {
+        return { status: CustomCommandStatus.Failure, message: "This command can only be run by a player." };
+      }
+      let text = typeof action === "string" ? action : "status";
+      if (text.startsWith("radius")) text = `radius ${text.slice("radius".length)}`;
+      system.run(() => {
+        try { handle(player, text); }
+        catch (error) { console.warn("[JR] command failed", error); }
+      });
+      return { status: CustomCommandStatus.Success, message: "Another java redstone addon" };
+    });
+  });
+} catch (error) {
+  console.warn("[JR] /jr:redstone unavailable; use /scriptevent jr:help", error);
+}
 
 system.runInterval(() => {
   try { processObserverPulses(); } catch {}
@@ -768,7 +880,7 @@ try {
 system.run(() => {
   loadDefaults();
   try {
-    world.sendMessage("§6[Java Redstone]§r v1.22+ wired — §f!jr help§7 (QC/0-tick/dust/torch/rails/wire/retract/bulb)");
+    world.sendMessage("§6[Another java redstone addon]§r loaded — §f/jr:redstone help§7 or §f/scriptevent jr:help");
   } catch {}
 });
 
@@ -801,7 +913,7 @@ system.runInterval(() => {
             try {
               const n = b.dimension.getBlock({ x: b.location.x + dx, y: b.location.y + dy, z: b.location.z + dz });
               if (n && n.typeId === "minecraft:redstone_wire") {
-                // Force update
+                n.setPermutation(n.permutation);
               }
             } catch {}
           }
@@ -864,9 +976,14 @@ function checkTorchBurnout(block) {
     if (data.count >= 8) {
       // Burn out
       try {
-        block.setPermutation(BlockPermutation.resolve("minecraft:unlit_redstone_torch"));
+        const loc = { x: Math.floor(block.location.x), y: Math.floor(block.location.y), z: Math.floor(block.location.z) };
+        const dimId = block.dimension.id;
+        block.setType("minecraft:unlit_redstone_torch");
         system.runTimeout(() => {
-          try { block.setPermutation(BlockPermutation.resolve("minecraft:redstone_torch")); } catch {}
+          try {
+            const again = world.getDimension(dimId).getBlock(loc);
+            if (again?.typeId === "minecraft:unlit_redstone_torch") again.setType("minecraft:redstone_torch");
+          } catch {}
         }, 160); // 8 seconds
       } catch {}
       data.count = 0;
@@ -3668,17 +3785,33 @@ DEFAULTS.stickyPullTiming = true;
 
 const stickyDelayQueue = new Map();
 
-function queueStickyDelay(block, action, delay) {
-  if (!cfg("stickyDelay")) { 
-    forceActivate(block, { extend: action === "extend" }); 
-    return; 
+function freshBlock(data) {
+  try {
+    const dim = world.getDimension(data.dimId);
+    const block = dim.getBlock({ x: data.x, y: data.y, z: data.z });
+    if (!block) return undefined;
+    if (typeof block.isValid === "function" && !block.isValid()) return undefined;
+    if (typeof block.isValid === "boolean" && !block.isValid) return undefined;
+    return block;
+  } catch {
+    return undefined;
   }
-  const key = `${block.location.x},${block.location.y},${block.location.z}`;
+}
+
+function queueStickyDelay(block, action, delay) {
+  if (!cfg("stickyDelay")) {
+    forceActivate(block, { extend: action === "extend" });
+    return;
+  }
+  const key = keyOf(block);
   const delayTicks = delay ?? (Number(cfg("stickyDelayTicks")) || 2);
   stickyDelayQueue.set(key, {
-    block,
+    dimId: block.dimension.id,
+    x: Math.floor(block.location.x),
+    y: Math.floor(block.location.y),
+    z: Math.floor(block.location.z),
     action,
-    tick: system.currentTick + delayTicks
+    tick: system.currentTick + delayTicks,
   });
 }
 
@@ -3686,49 +3819,48 @@ system.runInterval(() => {
   if (!cfg("stickyDelay")) return;
   const now = system.currentTick;
   for (const [key, data] of stickyDelayQueue) {
-    if (now >= data.tick) {
-      try {
-        if (data.block.isValid) {
-          if (data.action === "extend") {
-            forceActivate(data.block, { extend: true });
-          } else if (data.action === "retract") {
-            forceActivate(data.block, { extend: false });
-          } else if (data.action === "pull") {
-            // Pull attached block
-            const facing = data.block.permutation.getState("facing_direction") || 0;
-            const dirs = [[0,-1,0],[0,1,0],[0,0,-1],[0,0,1],[-1,0,0],[1,0,0]];
-            const [dx, dy, dz] = dirs[facing] || [0, 0, 0];
-            const front = data.block.dimension.getBlock({
-              x: data.block.location.x + dx,
-              y: data.block.location.y + dy,
-              z: data.block.location.z + dz
-            });
-            if (front && front.typeId !== "minecraft:air") {
-              // Pull block back
-              const pulled = data.block.dimension.getBlock({
-                x: data.block.location.x + dx * 2,
-                y: data.block.location.y + dy * 2,
-                z: data.block.location.z + dz * 2
-              });
-              if (pulled && pulled.typeId === "minecraft:air") {
-                const type = front.typeId;
-                front.setType("minecraft:air");
-                pulled.setType(type);
-              }
-            }
-            forceActivate(data.block, { extend: false });
+    if (now < data.tick) continue;
+    stickyDelayQueue.delete(key);
+    try {
+      const block = freshBlock(data);
+      if (!block || !PISTONS.has(block.typeId)) continue;
+      if (data.action === "extend") {
+        if (!isExtendedPiston(block) && (isQuasiPowered(block) || getPower(block) > 0)) {
+          forceActivate(block, { extend: true });
+        }
+      } else if (data.action === "retract") {
+        forceActivate(block, { extend: false });
+      } else if (data.action === "pull") {
+        const facing = facingOf(block);
+        const d = FACE_DELTA[facing] || [0, 0, 0];
+        const front = block.dimension.getBlock({
+          x: data.x + d[0],
+          y: data.y + d[1],
+          z: data.z + d[2],
+        });
+        if (front && !front.isAir && !front.isLiquid) {
+          const pulled = block.dimension.getBlock({
+            x: data.x + d[0] * 2,
+            y: data.y + d[1] * 2,
+            z: data.z + d[2] * 2,
+          });
+          if (pulled && pulled.isAir) {
+            const type = front.typeId;
+            front.setType("minecraft:air");
+            pulled.setType(type);
           }
         }
-      } catch {}
-      stickyDelayQueue.delete(key);
-    }
+        forceActivate(block, { extend: false });
+      }
+    } catch {}
   }
 }, 1);
 
-// Sticky piston extend with delay
+// Sticky piston extend with delay. Returns true when the job was queued.
 function stickyExtend(block) {
-  if (block.typeId !== "minecraft:sticky_piston") return;
+  if (!block || block.typeId !== "minecraft:sticky_piston") return false;
   queueStickyDelay(block, "extend", Number(cfg("stickyExtendDelay")) || 1);
+  return true;
 }
 
 // Sticky piston retract with delay

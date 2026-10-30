@@ -9,8 +9,8 @@ ItemStack,
 system,
 world
 } from "@minecraft/server";
-import { RiptideEnvironment } from "./interfaces";
-import { CustomTrident } from "./data";
+import { RiptideEnvironment } from "./interfaces.js";
+import { CustomTrident } from "./data.js";
 const excludedTypes = [
 "minecraft:arrow", "minecraft:snowball",
 "minecraft:thrown_trident", "minecraft:xp_orb",

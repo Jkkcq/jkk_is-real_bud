@@ -1,5 +1,5 @@
 import { world } from "@minecraft/server";
-import { RiptideEnvironment } from "./interfaces";
+import { RiptideEnvironment } from "./interfaces.js";
 export const waitTicks = 3;
 export const CustomTrident = [
 {

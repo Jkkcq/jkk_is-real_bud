@@ -41,6 +41,7 @@ return false;
 }
 safeSubscribe("playerInteractWithBlock", () => world.afterEvents?.playerInteractWithBlock, (event) => {
 const { source: player, block, beforeItemStack: item, itemStack } = event;
+if (cfg.cobweb_enabled === false) return;
 if (item?.typeId !== "minecraft:water_bucket" || block?.typeId !== "minecraft:web" || itemStack?.typeId !== "minecraft:bucket") return;
 const aboveLocation = { x: block.location.x, y: block.location.y + 1, z: block.location.z };
 const blockAbove = block.dimension.getBlock(aboveLocation);
@@ -65,6 +66,7 @@ waterBlock.setType("minecraft:flowing_water");
 });
 safeSubscribe("playerPlaceBlock", () => world.afterEvents?.playerPlaceBlock, (event) => {
 const block = event.block;
+if (cfg.cobweb_enabled === false) return;
 if (block.typeId !== "minecraft:web") return;
 const { location, dimension } = block;
 for (const [dx, dy, dz] of WEB_CHECK_OFFSETS) {

@@ -65,8 +65,15 @@ else if (id.includes("wooden") || id.includes("stone") || id.includes("copper"))
 else override = cfg.cooldown_axe_heavy;
 } else if (id === "minecraft:mace") override = cfg.cooldown_mace;
 else if (item.hasTag?.("minecraft:is_trident") || id.includes("trident")) override = cfg.cooldown_trident;
+else if (item.hasTag?.("minecraft:is_shovel") || /_shovel$/.test(id)) override = cfg.cooldown_shovel;
+else if (item.hasTag?.("minecraft:is_pickaxe") || /_pickaxe$/.test(id)) override = cfg.cooldown_pickaxe;
+else if (item.hasTag?.("minecraft:is_hoe") || /_hoe$/.test(id)) override = cfg.cooldown_hoe;
+else if (item.hasTag?.("minecraft:is_spear") || /spear$/.test(id)) override = cfg.cooldown_spear;
 const n = Number(override);
 if (Number.isFinite(n) && n >= 4 && n <= 60) return n;
+} else {
+const fist = Number(cfg.cooldown_default);
+if (Number.isFinite(fist) && fist >= 4 && fist <= 60) return fist;
 }
 } catch {}
 return 20 / Math.max(0.05, speed);
