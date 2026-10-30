@@ -1,7 +1,7 @@
 import { world, system } from '@minecraft/server';
 import { updatePlayerHud } from './hud.js';
 import { checkSaturation } from './saturation.js';
-import { checkXp } from '../extra/xp';
+import { checkXp } from '../extra/xp.js';
 import { updateShieldAnimation } from './shield.js';
 import { cfg, reloadConfig } from './config.js';
 let tickCounter = 0;

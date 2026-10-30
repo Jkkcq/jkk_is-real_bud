@@ -1,6 +1,13 @@
 # Minecraft Bedrock Addons
 
-## Java PvP Addon (10.3.41)
+Pack names in the world UI:
+
+- **Another java pvp addon** (`JavaPvP/`, behavior + resource, 10.3.54)
+- **Another java redstone addon** (`JavaRedstone/`, behavior + resource, 1.22.4)
+
+Both target Minecraft Bedrock 1.26.50+ (`@minecraft/server` 2.10.0). Enable the Beta APIs experiment if the world asks for it. Load each behavior pack together with its resource pack.
+
+## Another java pvp addon (10.3.54)
 Location: `JavaPvP/`
 
 ### Fixes
@@ -10,6 +17,8 @@ Location: `JavaPvP/`
 - Custom shield raise delay now actually applies (was always 1 tick)
 - Side shield pose reads `shield_side_pose`
 - Fishing item retrieval + true armor durability honor live `cfg` values
+- Offhand right-click now subscribes (`world` / `system` are imported in `offhandRightClick.js`)
+- Relative script imports include `.js`, which Bedrock's module loader requires
 
 ### New / restored Java parity
 - Ender pearl cooldown (default 20 ticks)
@@ -23,7 +32,7 @@ Features:
 - Saturation shower HUD, emote hotbar swap
 - CPvP / advanced sword / redstone-adjacent combat extras
 
-## Java Redstone Addon (v1.22.1)
+## Another java redstone addon (v1.22.4)
 Location: `JavaRedstone/`
 
 ### Fixes / wiring
@@ -31,7 +40,9 @@ Location: `JavaRedstone/`
 - Features that existed as dead helpers are now scanned/wired:
   torch burnout, rail updates, instant wire, sticky double-retract,
   comparator subtract pass, copper bulb checks, note-block observer pulse
-- `!jr help` / status updated for the wired feature set
+- `!jr help` / `/jr:redstone help` / status updated for the wired feature set
+- Redstone scans are tick-budgeted so a full-volume block walk cannot hang the script watchdog
+- Sticky piston delay stores coordinates and re-reads the block when the delay ends
 - New toggles: `!jr torch|rails|wire|retract|bulb|sticky|pushlimit|note`
 
 ### Core cheese still included
@@ -44,5 +55,5 @@ Each addon has:
 - `RP/` - Resource pack (textures, manifests)
 
 In-game:
-- Java PvP: `/jk:config world` or `/jk:config personal`
-- Java Redstone: `!jr help` or `/scriptevent jr:help`
+- Another java pvp addon: `/jk:config world` or `/jk:config personal`
+- Another java redstone addon: `/jr:redstone help` or `/scriptevent jr:help` (`!jr help` still works where chat events exist)

@@ -9,9 +9,9 @@ ItemEnchantableComponent,
 system,
 world
 } from "@minecraft/server";
-import { CustomTrident, waitTicks } from "./data";
-import { TridentManager } from "./manager";
-import { Weather } from "./weather";
+import { CustomTrident, waitTicks } from "./data.js";
+import { TridentManager } from "./manager.js";
+import { Weather } from "./weather.js";
 import { setTempVars } from "../attachables_from_script.js";
 import { ALLOWED_MAINHAND_TAG } from "../listed_items.js";
 import { cfg } from "../../../engine/config.js";

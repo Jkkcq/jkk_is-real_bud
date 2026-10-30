@@ -1,6 +1,7 @@
 import { EquipmentSlot, GameMode, ItemStack, Potions, system, world } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick } from "../../engine/offhandRightClick.js";
+import { mainhandBlocksOffhand } from "./listed_items.js";
 const FISHING_ROD = "minecraft:fishing_rod";
 const POTION_TYPES = new Set([
 "minecraft:potion",
@@ -50,8 +51,8 @@ offhand: equippable.getEquipment(EquipmentSlot.Offhand)
 return undefined;
 }
 }
-function allowedMainhand(item) {
-return WEAPON_TAGS.some((tag) => hasTag(item, tag));
+function allowedMainhand(item, player, event) {
+return !mainhandBlocksOffhand(player, item, event);
 }
 function canUseInteract(event) {
 if (event?.kind === "entity") return false;
@@ -388,7 +389,7 @@ onOffhandRightClick((event) => {
 const player = event?.player;
 if (!player || cfg.offhand_enabled === false || !canUseInteract(event)) return false;
 const hands = getHands(player);
-if (!hands?.offhand || !allowedMainhand(hands.mainhand)) return false;
+if (!hands?.offhand || !allowedMainhand(hands.mainhand, player, event)) return false;
 if (hands.offhand.typeId === FISHING_ROD) {
 if (cfg.offhand_projectiles_enabled === false) return false;
 if (!takeActionLock(player, event.inputTick, 8)) return true;

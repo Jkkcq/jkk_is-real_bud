@@ -1,13 +1,13 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Another java addon 10.3.40",
-    "description": "Saturation shower added. PERSONAL USE ONLY.",
+    "name": "Another java pvp addon",
+    "description": "Another java pvp addon. Java-style combat, offhand, shields, and HUD.",
     "uuid": "9037d748-1344-44f0-b9a4-20bb4b2a5d77",
     "version": [
       10,
       3,
-      41
+      54
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         10,
         3,
-        41
+        54
       ]
     }
   ],

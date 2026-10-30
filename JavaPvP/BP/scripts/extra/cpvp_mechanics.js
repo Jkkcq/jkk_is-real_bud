@@ -210,7 +210,16 @@ return false;
 }
 function tryAnchorExplode(player, block) {
 if (!cpvpOn() || !on("cpvp_anchors", true)) return false;
-if (!block || block.typeId !== "minecraft:respawn_anchor") return false;
+if (!block) return false;
+try {
+const fresh = block.dimension.getBlock({
+x: Math.floor(block.location.x),
+y: Math.floor(block.location.y),
+z: Math.floor(block.location.z),
+});
+if (fresh) block = fresh;
+} catch {}
+if (block.typeId !== "minecraft:respawn_anchor") return false;
 let charges = 0;
 try {
 charges = Number(block.permutation?.getState?.("respawn_anchor_charge") ?? 0);
