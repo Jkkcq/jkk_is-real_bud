@@ -1,5 +1,5 @@
-import { system, world } from "@minecraft/server";
-const RIGHT_CLICK_SOURCES = new Set(["UseItem", "Interact", "Build"]);
+import { isMaceItem, mainhandBlocksOffhand } from "../extra/offhand/listed_items.js";
+const RIGHT_CLICK_SOURCES = new Set(["UseItem", "Interact", "Build", "ItemUse", "Use"]);
 const handlers = new Set();
 const releaseHandlers = new Set();
 const lastHandledTick = new Map();
@@ -40,6 +40,8 @@ return false;
 function dispatch(event) {
 const playerId = event?.player?.id;
 if (!playerId) return false;
+const mainhand = event.heldItemStack ?? event.player.getComponent("minecraft:inventory")?.container?.getItem(event.player.selectedSlotIndex);
+if (mainhandBlocksOffhand(event.player, mainhand, event)) return false;
 const previous = lastHandledTick.get(playerId);
 if (previous === event.inputTick) return true;
 let handled = false;
@@ -69,7 +71,21 @@ return handled;
 function routeSwing(event) {
 const player = readEventField(event, "player");
 const swingSource = readEventField(event, "swingSource");
-if (!isPlayer(player) || !RIGHT_CLICK_SOURCES.has(swingSource)) return;
+const held = readEventField(event, "heldItemStack");
+if (!isPlayer(player)) return;
+if (swingSource === "Attack") {
+dispatch({
+kind: "use",
+inputSource: "attack",
+inputTick: system.currentTick,
+player,
+swingSource,
+heldItemStack: held,
+});
+return;
+}
+const maceUse = isMaceItem(held) && typeof swingSource === "string" && swingSource !== "Attack" && swingSource !== "";
+if (!RIGHT_CLICK_SOURCES.has(swingSource) && !maceUse) return;
 dispatch({
 kind: "use",
 inputSource: "playerSwingStart",

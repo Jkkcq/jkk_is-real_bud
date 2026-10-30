@@ -532,6 +532,10 @@ function processQC(block) {
     } catch {}
     noteStickyPowered(block);
     try { watchDoubleRetract(block); } catch {}
+    // Prefer sticky timing queue when enabled (Java-ish sticky extend delay)
+    if (cfg("stickyDelay") && block.typeId === "minecraft:sticky_piston" && typeof stickyExtend === "function") {
+      try { stickyExtend(block); return; } catch {}
+    }
     queueJavaExtend(block);
     return;
   }
@@ -542,7 +546,7 @@ function processQC(block) {
   }
 }
 
-function scanAround(entity, radius) {
+function scanAround(entity, radius, extras) {
   const dim = entity.dimension;
   const x = Math.floor(entity.location.x);
   const y = Math.floor(entity.location.y);
@@ -560,6 +564,7 @@ function scanAround(entity, radius) {
           processQC(b);
           continue;
         }
+        if (!extras) continue;
         // Wire features that previously existed as dead helpers
         try {
           if (id === DUST) {
@@ -592,13 +597,14 @@ let scanTick = 0;
 system.runInterval(() => {
   if (cfg("enabled") === false) return;
   scanTick++;
-  // Responsive: scan every tick if due, otherwise every 2 ticks
-  if (!scanDue && scanTick % 2 !== 0) return;
-  if (cfg("budMode") && !scanDue) return;
+  const due = scanDue;
+  if (!due && scanTick % 8 !== 0) return;
+  if (cfg("budMode") && !due) return;
   scanDue = false;
-  const r = Math.min(12, cfg("radius"));
+  const r = due ? Math.min(10, Number(cfg("radius")) || 10) : 6;
+  const extras = due || scanTick % 16 === 0;
   for (const p of world.getPlayers()) {
-    try { scanAround(p, r); } catch {}
+    try { scanAround(p, r, extras); } catch {}
   }
 }, 1);
 
@@ -606,7 +612,7 @@ system.runInterval(() => {
 system.runInterval(() => {
   if (!cfg("enabled") || !cfg("dustFix")) return;
   for (const p of world.getPlayers()) {
-    try { dustPassAround(p, 8); } catch {}
+    try { dustPassAround(p, 5); } catch {}
   }
 }, 10);
 
@@ -2336,9 +2342,9 @@ system.runInterval(() => {
   try {
     for (const player of world.getPlayers()) {
       const loc = player.location;
-      for (let dx = -8; dx <= 8; dx++) {
-        for (let dy = -4; dy <= 4; dy++) {
-          for (let dz = -8; dz <= 8; dz++) {
+      for (let dx = -4; dx <= 4; dx++) {
+        for (let dy = -3; dy <= 3; dy++) {
+          for (let dz = -4; dz <= 4; dz++) {
             try {
               const block = player.dimension.getBlock({ x: Math.floor(loc.x) + dx, y: Math.floor(loc.y) + dy, z: Math.floor(loc.z) + dz });
               if (block && block.typeId === "minecraft:copper_bulb") {
@@ -2354,7 +2360,7 @@ system.runInterval(() => {
       }
     }
   } catch {}
-}, 4);
+}, 20);
 
 // ===================== MORE MECHANICS =====================
 

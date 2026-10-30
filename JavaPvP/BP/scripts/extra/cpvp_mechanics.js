@@ -101,6 +101,7 @@ hurtState.delete(playerId);
 const recentPearl = new Map();
 function pearlFlash(player) {
 if (!cpvpOn() || !on("cpvp_pearl_flash", true)) return;
+if (cfg.java_pearl_fall_damage !== false) return;
 if (!player || player.typeId !== "minecraft:player") return;
 const now = system.currentTick;
 if ((recentPearl.get(player.id) ?? -99) + 5 > now) return;

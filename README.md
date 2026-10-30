@@ -1,6 +1,6 @@
 # Minecraft Bedrock Addons
 
-## Java PvP Addon (10.3.41)
+## Java PvP Addon (10.3.43)
 Location: `JavaPvP/`
 
 ### Fixes
@@ -23,7 +23,15 @@ Features:
 - Saturation shower HUD, emote hotbar swap
 - CPvP / advanced sword / redstone-adjacent combat extras
 
-## Java Redstone Addon (v1.22.1)
+
+### Follow-up wiring (10.3.43 / 1.22.3)
+- Weapon cooldown config now applies to shovel / pickaxe / hoe / spear / fist
+- Cobweb waterlog mechanics respect `cobweb_enabled`
+- Legacy `sat` / `shield` config aliases sync to `java_saturation_enabled` / `custom_shield_enabled`
+- Mobile saturation offset toggle wired into HUD platform selection
+- Sticky piston QC path uses sticky delay queue when enabled
+
+## Java Redstone Addon (v1.22.3)
 Location: `JavaRedstone/`
 
 ### Fixes / wiring
@@ -46,3 +54,10 @@ Each addon has:
 In-game:
 - Java PvP: `/jk:config world` or `/jk:config personal`
 - Java Redstone: `!jr help` or `/scriptevent jr:help`
+
+### Hard check (10.3.43 / 1.22.3)
+- Rebuilt empty/invalid `textures_list.json` from actual RP textures
+- Linked Java Redstone BP → RP dependency
+- Restored orphaned HUD menu in `/jk:config world`
+- Hardened HUD / particle / sound form saves to use filtered form values
+- Hardened pearl/throwable cooldown event subscriptions

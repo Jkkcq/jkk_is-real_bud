@@ -4,6 +4,7 @@ const SWAPPABLE_FOOD_SET = new Set(SWAPPABLE_FOOD_IDS2);
 import { cfg } from '../../engine/config.js';
 import { onOffhandRightClick, onOffhandInteractRelease } from '../../engine/offhandRightClick.js';
 import { OFFHAND_SINGLE_EAT_PER_PRESS_ITEMS } from './listed_items.js';
+import "./weapons.js";
 function isOffhandEnabled() {
 return cfg.offhand_enabled;
 }

@@ -1,7 +1,7 @@
 import { world, system, EquipmentSlot, GameMode } from "@minecraft/server";
 import { cfg } from "../../engine/config.js";
 import { onOffhandRightClick, onOffhandInteractRelease } from "../../engine/offhandRightClick.js";
-import { ALLOWED_MAINHAND_TAG, OFFHAND_INTERACT_HOLD_ITEMS, OFFHAND_THROWABLES, THROW_COOLDOWNS } from "./listed_items.js";
+import { OFFHAND_INTERACT_HOLD_ITEMS, OFFHAND_THROWABLES, THROW_COOLDOWNS, mainhandBlocksOffhand } from "./listed_items.js";
 const cooldownUntil = new Map();
 const lastHandledTick = new Map();
 const heldThrowLock = new Set();
@@ -14,10 +14,6 @@ heldThrowLock.delete(playerId);
 heldThrowReleaseRuns.delete(playerId);
 }, 20);
 heldThrowReleaseRuns.set(playerId, release);
-}
-function hasAllowedWeaponTag(item) {
-try { return Boolean(item?.hasTag(ALLOWED_MAINHAND_TAG) || item?.hasTag("bf:custom_shield_usable") || item?.hasTag("jk:custom_shield_usable")); }
-catch { return false; }
 }
 function removeOneOffhand(player, item) {
 if (player.getGameMode() === GameMode.Creative) return;
@@ -57,13 +53,14 @@ x: head.x + direction.x * 0.5,
 y: head.y + direction.y * 0.25,
 z: head.z + direction.z * 0.5
 };
+const speed = item.typeId === "minecraft:ender_eye" ? 0.85 : item.typeId === "minecraft:ender_pearl" ? 1.5 : 1.4;
 let projectile;
 try {
 projectile = player.dimension.spawnEntity(projectileType, spawn);
 const component = projectile.getComponent("minecraft:projectile");
 if (component) {
 component.owner = player;
-component.shoot({ x: direction.x * 1.5, y: direction.y * 1.5, z: direction.z * 1.5 });
+component.shoot({ x: direction.x * speed, y: direction.y * speed, z: direction.z * speed });
 }
 } catch {
 try { projectile?.remove(); } catch {}
@@ -71,7 +68,20 @@ return false;
 }
 const cooldown = Number(THROW_COOLDOWNS[item.typeId] ?? 0);
 if (cooldown > 0) cooldownUntil.set(cooldownKey, system.currentTick + cooldown);
-try { player.playSound("random.bow", { volume: 0.5, pitch: 0.5 }); } catch {}
+try { player.playSound(item.typeId === "minecraft:ender_eye" ? "random.pop" : "random.bow", { volume: 0.5, pitch: item.typeId === "minecraft:ender_eye" ? 0.8 : 0.5 }); } catch {}
+try { removeOneOffhand(player, item); } catch {}
+return true;
+}
+function boostFirework(player, item) {
+try {
+if (!player.isGliding) return false;
+} catch { return false; }
+const direction = player.getViewDirection();
+try {
+player.applyImpulse({ x: direction.x * 1.15, y: Math.max(0.15, direction.y * 0.85), z: direction.z * 1.15 });
+} catch { return false; }
+try { player.playSound("firework.launch", { volume: 0.6, pitch: 1 }); } catch {}
+try { player.dimension.spawnParticle("minecraft:firework_rocket", player.location); } catch {}
 try { removeOneOffhand(player, item); } catch {}
 return true;
 }
@@ -91,7 +101,13 @@ const inventory = player.getComponent("minecraft:inventory")?.container;
 item = equippable?.getEquipment(EquipmentSlot.Offhand);
 mainhand = inventory?.getItem(player.selectedSlotIndex);
 } catch { return false; }
-if (!item || !OFFHAND_INTERACT_HOLD_ITEMS.has(item.typeId) || !OFFHAND_THROWABLES[item.typeId] || !hasAllowedWeaponTag(mainhand)) return false;
+if (!item) return false;
+if (item.typeId === "minecraft:firework_rocket") {
+if (!boostFirework(player, item)) return false;
+lastHandledTick.set(player.id, tick);
+return true;
+}
+if (!OFFHAND_INTERACT_HOLD_ITEMS.has(item.typeId) || !OFFHAND_THROWABLES[item.typeId] || mainhandBlocksOffhand(player, mainhand, { kind: "use" })) return false;
 heldThrowLock.add(player.id);
 refreshHeldThrowLock(player.id);
 lastHandledTick.set(player.id, tick);
