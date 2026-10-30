@@ -296,13 +296,16 @@ system.runInterval(() => {
     try {
       skeletons = player.dimension.getEntities({
         location: player.location,
-        maxDistance: 22,
+        maxDistance: 18,
         families: ["skeleton"],
       });
     } catch {
-      try {
-        skeletons = player.dimension.getEntities({ location: player.location, maxDistance: 22 });
-      } catch { continue; }
+      skeletons = [];
+      for (const type of ["minecraft:skeleton", "minecraft:stray", "minecraft:bogged"]) {
+        try {
+          skeletons.push(...player.dimension.getEntities({ type, location: player.location, maxDistance: 18 }));
+        } catch {}
+      }
     }
     for (const mob of skeletons) {
       if (!alive(mob) || !KITE.has(mob.typeId) || seen.has(mob.id)) continue;
@@ -310,7 +313,7 @@ system.runInterval(() => {
       strafeSkeleton(mob, player, now);
     }
   }
-}, 4);
+}, 6);
 
 function strafeSkeleton(mob, player, now) {
   const toX = player.location.x - mob.location.x;

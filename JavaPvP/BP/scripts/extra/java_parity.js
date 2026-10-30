@@ -81,25 +81,45 @@ world.afterEvents.playerLeave.subscribe(({ playerId }) => {
 
 // Crit coyote: brief window where leaving ground still counts as airborne for crits.
 system.runInterval(() => {
-  if (!on("java_crit_coyote_enabled", true)) return;
-  const window = Math.max(1, Math.min(8, Math.round(num("java_crit_coyote_ticks", 3, 1, 8))));
+  const coyoteOn = on("java_crit_coyote_enabled", true);
+  const window = coyoteOn ? Math.max(1, Math.min(8, Math.round(num("java_crit_coyote_ticks", 3, 1, 8)))) : 0;
+  const pace = system.currentTick % 5 === 0;
   for (const player of world.getPlayers()) {
     try {
-      const id = player.id;
-      const onGround = Boolean(player.isOnGround);
-      const prev = groundedLast.get(id);
-      if (prev === undefined) {
-        groundedLast.set(id, onGround);
-        continue;
+      if (coyoteOn) {
+        const id = player.id;
+        const onGround = Boolean(player.isOnGround);
+        const prev = groundedLast.get(id);
+        if (prev === undefined) {
+          groundedLast.set(id, onGround);
+        } else {
+          if (prev && !onGround) {
+            setStateTag(player, "java_coyote_air", true);
+            system.runTimeout(() => {
+              try { setStateTag(player, "java_coyote_air", false); } catch {}
+            }, window);
+          }
+          if (onGround) setStateTag(player, "java_coyote_air", false);
+          groundedLast.set(id, onGround);
+        }
       }
-      if (prev && !onGround) {
-        setStateTag(player, "java_coyote_air", true);
-        system.runTimeout(() => {
-          try { setStateTag(player, "java_coyote_air", false); } catch {}
-        }, window);
+      if (!pace) continue;
+      if (on("java_sprint_hunger", true)) {
+        const hunger = player.getComponent("minecraft:player.hunger")?.currentValue;
+        if (player.isSprinting && typeof hunger === "number" && hunger <= 6) {
+          player.addEffect("slowness", 8, { amplifier: 2, showParticles: false });
+        }
       }
-      if (onGround) setStateTag(player, "java_coyote_air", false);
-      groundedLast.set(id, onGround);
+      if (on("java_berry_slow", true)) {
+        const block = player.dimension.getBlock({
+          x: Math.floor(player.location.x),
+          y: Math.floor(player.location.y),
+          z: Math.floor(player.location.z),
+        });
+        if (block?.typeId === "minecraft:sweet_berry_bush") {
+          player.addEffect("slowness", 10, { amplifier: 0, showParticles: false });
+        }
+      }
     } catch {}
   }
 }, 1);
@@ -189,4 +209,30 @@ try {
 
 try {
   console.warn("[JPVP] Java parity module loaded (pearl CD, hit-interrupt, crit coyote, throwables)");
+} catch {}
+
+const pearlFallAt = new Map();
+function applyPearlFall(player) {
+  if (!player || player.typeId !== "minecraft:player" || !on("java_pearl_fall_damage", true)) return;
+  const now = system.currentTick;
+  if ((pearlFallAt.get(player.id) ?? -30) + 8 > now) return;
+  pearlFallAt.set(player.id, now);
+  system.run(() => {
+    try {
+      if (player.isValid === false) return;
+      player.applyDamage(5, { cause: "fall" });
+    } catch {}
+  });
+}
+try {
+  world.afterEvents.projectileHitBlock.subscribe((event) => {
+    if (event.projectile?.typeId !== "minecraft:ender_pearl") return;
+    const owner = event.source ?? event.projectile?.owner;
+    applyPearlFall(owner);
+  });
+  world.afterEvents.projectileHitEntity.subscribe((event) => {
+    if (event.projectile?.typeId !== "minecraft:ender_pearl") return;
+    const owner = event.source ?? event.projectile?.owner;
+    applyPearlFall(owner);
+  });
 } catch {}

@@ -522,7 +522,10 @@ form.toggle("Crit coyote air window", { defaultValue: Boolean(world.getDynamicPr
 addNumericField(form, "Crit coyote ticks", 1, 8, configSliderDefault("java_crit_coyote_ticks", 3, 1, 8));
 form.toggle("Egg / snowball throw spacing", { defaultValue: Boolean(world.getDynamicProperty("java_throwable_cooldown_enabled") ?? true) });
 addNumericField(form, "Throwable spacing (ticks)", 1, 20, configSliderDefault("java_throwable_cooldown_ticks", 4, 1, 20));
-form.show(player).then(response => saveConfigForm(player, response, 7, showCombatConfigMenu, values => {
+form.toggle("Pearl lands for 5 fall damage", { defaultValue: Boolean(world.getDynamicProperty("java_pearl_fall_damage") ?? true) });
+form.toggle("No sprint at 6 hunger or below", { defaultValue: Boolean(world.getDynamicProperty("java_sprint_hunger") ?? true) });
+form.toggle("Sweet berry bushes slow you", { defaultValue: Boolean(world.getDynamicProperty("java_berry_slow") ?? true) });
+form.show(player).then(response => saveConfigForm(player, response, 10, showCombatConfigMenu, values => {
 world.setDynamicProperty("java_pearl_cooldown_enabled", Boolean(values[0]));
 world.setDynamicProperty("java_pearl_cooldown_ticks", Math.round(clampNumber(Number(values[1]), 5, 40, 20)));
 world.setDynamicProperty("java_hit_interrupt_use", Boolean(values[2]));
@@ -530,6 +533,9 @@ world.setDynamicProperty("java_crit_coyote_enabled", Boolean(values[3]));
 world.setDynamicProperty("java_crit_coyote_ticks", Math.round(clampNumber(Number(values[4]), 1, 8, 3)));
 world.setDynamicProperty("java_throwable_cooldown_enabled", Boolean(values[5]));
 world.setDynamicProperty("java_throwable_cooldown_ticks", Math.round(clampNumber(Number(values[6]), 1, 20, 4)));
+world.setDynamicProperty("java_pearl_fall_damage", Boolean(values[7]));
+world.setDynamicProperty("java_sprint_hunger", Boolean(values[8]));
+world.setDynamicProperty("java_berry_slow", Boolean(values[9]));
 }, "Could not save Java parity settings."));
 }
 function showCombatQolConfig(player) {
@@ -1175,6 +1181,9 @@ let dynamicProperties = [
 { id: "java_dragon_launch", name: "Java Ender Dragon Launch", value: true, category: "combat" },
 { id: "java_wither_farm", name: "Java Wither Phases", value: true, category: "combat" },
 { id: "java_mob_special", name: "Java Special Mob Behaviors", value: true, category: "combat" },
+{ id: "java_pearl_fall_damage", name: "Java Pearl Fall Damage", value: true, category: "combat" },
+{ id: "java_sprint_hunger", name: "Java Sprint Hunger Gate", value: true, category: "combat" },
+{ id: "java_berry_slow", name: "Java Sweet Berry Slow", value: true, category: "combat" },
 ];
 let dynamicPropertiesPlayer = [
 { id: "sat_hud", name: "Saturation HUD", value: true, category: "hud" },
